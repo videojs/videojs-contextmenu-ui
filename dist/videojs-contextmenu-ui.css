@@ -1,0 +1,7 @@
+/**
+ * videojs-contextmenu-ui
+ * @version 1.0.0
+ * @copyright 2016 Brightcove, Inc.
+ * @license Apache-2.0
+ */
+.vjs-contextmenu-ui-modal .vjs-contextmenu-ui-list{list-style:none;margin:0;padding:0}.vjs-contextmenu-ui-modal .vjs-contextmenu-ui-item{clear:both}.vjs-contextmenu-ui-modal .vjs-contextmenu-ui-link{color:white;float:left;padding:.5em 1em;text-decoration:none}.vjs-contextmenu-ui-modal .vjs-contextmenu-ui-link:active,.vjs-contextmenu-ui-modal .vjs-contextmenu-ui-link:hover{background-color:rgba(255,255,255,0.25)}
