@@ -1,5 +1,7 @@
 import videojs from 'video.js';
 
+const CLASS_PREFIX = 'vjs-contextmenu-ui';
+
 /**
  * Converts items in a content array into DOM elements.
  *
@@ -7,11 +9,12 @@ import videojs from 'video.js';
  * @return {HTMLElement}
  */
 const createList = (items) => {
-  const ul = videojs.createEl('ul');
+  const ul = videojs.createEl('ul', {className: `${CLASS_PREFIX}-list`});
 
   items.forEach(item => {
-    const li = videojs.createEl('li');
+    const li = videojs.createEl('li', {className: `${CLASS_PREFIX}-item`});
     const link = videojs.createEl('a', {
+      className: `${CLASS_PREFIX}-link`,
       href: item.href || '#',
       target: '_blank'
     });
@@ -56,12 +59,14 @@ const contextmenuUI = function(options) {
         label: options.label || this.localize('Context Menu'),
         temporary: false
       });
+
+      modal.addClass(`${CLASS_PREFIX}-modal`);
     } else {
       modal.open();
     }
   });
 
-  this.ready(() => this.addClass('vjs-contextmenu-ui'));
+  this.ready(() => this.addClass(CLASS_PREFIX));
 };
 
 videojs.plugin('contextmenuUI', contextmenuUI);

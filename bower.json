@@ -3,6 +3,7 @@
   "author": "Brightcove, Inc.",
   "license": "Apache-2.0",
   "main": [
+    "dist/videojs-contextmenu-ui.css",
     "dist/videojs-contextmenu-ui.min.js"
   ],
   "keywords": [

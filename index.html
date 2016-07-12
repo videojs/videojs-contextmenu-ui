@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>videojs-contextmenu-ui Demo</title>
   <link href="/node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <link href="/dist/videojs-contextmenu-ui.css" rel="stylesheet">
 </head>
 <body>
   <video id="videojs-contextmenu-ui-player" class="video-js vjs-default-skin" controls>
@@ -22,13 +23,13 @@
 
       player.contextmenuUI({
         content: [{
-          href: 'https://www.brightcove.com',
-          text: 'Brightcove',
+          href: 'https://www.brightcove.com/',
+          text: 'Brightcove'
         }, {
           text: 'Example Link',
           listener: function(e) {
             e.preventDefault();
-            videojs.log('you clicked the example link!');
+            alert('you clicked the example link!');
           }
         }]
       });

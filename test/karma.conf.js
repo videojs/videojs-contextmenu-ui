@@ -31,6 +31,7 @@ module.exports = function(config) {
     frameworks: frameworks,
 
     files: [
+      'dist/videojs-contextmenu-ui.css',
       'node_modules/sinon/pkg/sinon.js',
       'node_modules/sinon/pkg/sinon-ie.js',
       'node_modules/video.js/dist/video.js',
