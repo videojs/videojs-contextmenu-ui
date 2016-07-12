@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>videojs-contextmenu-ui Demo</title>
+  <link href="/node_modules/video.js/dist/video-js.css" rel="stylesheet">
+</head>
+<body>
+  <video id="videojs-contextmenu-ui-player" class="video-js vjs-default-skin" controls>
+    <source src="//vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>
+    <source src="//vjs.zencdn.net/v/oceans.webm" type='video/webm'>
+  </video>
+  <ul>
+    <li><a href="/test/">Run unit tests in browser.</a></li>
+  </ul>
+  <script src="/node_modules/video.js/dist/video.js"></script>
+  <script src="/node_modules/videojs-contextmenu/dist/videojs-contextmenu.js"></script>
+  <script src="/dist/videojs-contextmenu-ui.js"></script>
+  <script>
+    (function(window, videojs) {
+      var player = window.player = videojs('videojs-contextmenu-ui-player');
+
+      player.contextmenuUI({
+        content: [{
+          href: 'https://www.brightcove.com',
+          text: 'Brightcove',
+        }, {
+          text: 'Example Link',
+          listener: function(e) {
+            e.preventDefault();
+            videojs.log('you clicked the example link!');
+          }
+        }]
+      });
+    }(window, window.videojs));
+  </script>
+</body>
+</html>

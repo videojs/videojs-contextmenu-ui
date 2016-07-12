@@ -1,0 +1,110 @@
+{
+  "name": "videojs-contextmenu-ui",
+  "version": "0.0.0",
+  "description": "A cross-device context menu UI for video.js players.",
+  "main": "es5/plugin.js",
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "npm-run-all -p build:*",
+    "build:js": "npm-run-all build:js:babel build:js:browserify build:js:bannerize build:js:uglify",
+    "build:js:babel": "babel src -d es5",
+    "build:js:bannerize": "bannerize dist/videojs-contextmenu-ui.js --banner=scripts/banner.ejs",
+    "build:js:browserify": "browserify . -s videojs-contextmenu-ui -o dist/videojs-contextmenu-ui.js",
+    "build:js:uglify": "uglifyjs dist/videojs-contextmenu-ui.js --comments --mangle --compress -o dist/videojs-contextmenu-ui.min.js",
+    "build:test": "babel-node scripts/build-test.js",
+    "change": "chg add",
+    "clean": "rimraf dist test/dist es5 && mkdirp dist test/dist es5",
+    "lint": "vjsstandard",
+    "start": "babel-node scripts/server.js",
+    "pretest": "npm-run-all lint build",
+    "test": "karma start test/karma.conf.js",
+    "test:chrome": "npm run pretest && karma start test/karma.conf.js --browsers Chrome",
+    "test:firefox": "npm run pretest && karma start test/karma.conf.js --browsers Firefox",
+    "test:ie": "npm run pretest && karma start test/karma.conf.js --browsers IE",
+    "test:safari": "npm run pretest && karma start test/karma.conf.js --browsers Safari",
+    "preversion": "npm test",
+    "version": "babel-node scripts/version.js",
+    "postversion": "babel-node scripts/postversion.js",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "videojs",
+    "videojs-plugin"
+  ],
+  "author": "Brightcove, Inc.",
+  "license": "Apache-2.0",
+  "browserify": {
+    "transform": [
+      "browserify-shim",
+      "browserify-versionify"
+    ]
+  },
+  "browserify-shim": {
+    "qunit": "global:QUnit",
+    "sinon": "global:sinon",
+    "video.js": "global:videojs"
+  },
+  "style": "dist/videojs-contextmenu-ui.css",
+  "videojs-plugin": {
+    "style": "dist/videojs-contextmenu-ui.css",
+    "script": "dist/videojs-contextmenu-ui.min.js"
+  },
+  "vjsstandard": {
+    "ignore": [
+      "dist",
+      "docs",
+      "es5",
+      "test/dist",
+      "test/karma.conf.js"
+    ]
+  },
+  "files": [
+    "CONTRIBUTING.md",
+    "bower.json",
+    "dist/",
+    "docs/",
+    "es5/",
+    "index.html",
+    "scripts/",
+    "src/",
+    "test/"
+  ],
+  "dependencies": {
+    "video.js": "^5.10.1"
+  },
+  "devDependencies": {
+    "babel": "^5.8.35",
+    "babelify": "^6.4.0",
+    "bannerize": "^1.0.2",
+    "bluebird": "^3.2.2",
+    "browserify": "^12.0.2",
+    "browserify-shim": "^3.8.12",
+    "browserify-versionify": "^1.0.6",
+    "budo": "^8.0.4",
+    "chg": "^0.3.2",
+    "ghooks": "^1.1.1",
+    "glob": "^6.0.3",
+    "global": "^4.3.0",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-detect-browsers": "^2.0.2",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-ie-launcher": "^0.2.0",
+    "karma-qunit": "^0.1.9",
+    "karma-safari-launcher": "^0.1.1",
+    "lodash": "^4.11.2",
+    "mkdirp": "^0.5.1",
+    "npm-run-all": "^1.5.1",
+    "qunitjs": "^1.21.0",
+    "rimraf": "^2.5.1",
+    "sinon": "~1.14.0",
+    "uglify-js": "^2.6.1",
+    "videojs-contextmenu": "^1.0.0",
+    "videojs-standard": "^4.0.0"
+  },
+  "config": {
+    "ghooks": {
+      "pre-push": "npm test"
+    }
+  }
+}
