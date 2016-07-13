@@ -42,11 +42,17 @@ const createList = (player, items) => {
  *           An array of objects which populate a content list within the modal.
  * @param    {String} [options.label="Context Menu"]
  */
-const contextmenuUI = function(options) {
+function contextmenuUI(options) {
   let modal;
 
   if (!Array.isArray(options.content)) {
     throw new Error('"content" required');
+  }
+
+  // If we have already invoked the plugin, dispose of the previous invocation
+  // before re-invoking.
+  if (this.contextmenuUI !== contextmenuUI) {
+    this.contextmenuUI.modal.dispose();
   }
 
   // If we are not already abstracting "contextmenu" events, do so now.
@@ -54,21 +60,36 @@ const contextmenuUI = function(options) {
     this.contextmenu();
   }
 
+  // Wrap the plugin function with an player instance-specific function. This
+  // allows us to attach the modal to it without affecting other players on
+  // the page.
+  this.contextmenuUI = function() {
+    contextmenuUI.apply(this, arguments);
+  };
+
+  this.contextmenuUI.options = options;
+
   this.on('vjs-contextmenu', () => {
     if (!modal) {
-      modal = this.createModal(createList(this, options.content), {
+      modal = this.contextmenuUI.modal = this.createModal(createList(this, options.content), {
         label: options.label || this.localize('Context Menu'),
         temporary: false
       });
 
       modal.addClass(`${CLASS_PREFIX}-modal`);
+
+      // Clean up our references by removing the instance-specific wrapper if
+      // the modal is disposed; re-exposing the plugin itself.
+      this.contextmenuUI.modal.on('dispose', () => {
+        delete this.contextmenuUI;
+      });
     } else {
       modal.open();
     }
   });
 
   this.ready(() => this.addClass(CLASS_PREFIX));
-};
+}
 
 videojs.plugin('contextmenuUI', contextmenuUI);
 contextmenuUI.VERSION = '__VERSION__';
