@@ -5,10 +5,11 @@ const CLASS_PREFIX = 'vjs-contextmenu-ui';
 /**
  * Converts items in a content array into DOM elements.
  *
+ * @param  {Player} player
  * @param  {Object} item
  * @return {HTMLElement}
  */
-const createList = (items) => {
+const createList = (player, items) => {
   const ul = videojs.createEl('ul', {className: `${CLASS_PREFIX}-list`});
 
   items.forEach(item => {
@@ -22,7 +23,7 @@ const createList = (items) => {
     videojs.insertContent(link, item.text);
 
     if (typeof item.listener === 'function') {
-      videojs.on(link, 'click', item.listener);
+      videojs.on(link, 'click', videojs.bind(player, item.listener));
     }
 
     li.appendChild(link);
@@ -55,7 +56,7 @@ const contextmenuUI = function(options) {
 
   this.on('vjs-contextmenu', () => {
     if (!modal) {
-      modal = this.createModal(createList(options.content), {
+      modal = this.createModal(createList(this, options.content), {
         label: options.label || this.localize('Context Menu'),
         temporary: false
       });
