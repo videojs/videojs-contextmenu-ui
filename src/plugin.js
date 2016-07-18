@@ -56,9 +56,7 @@ function contextmenuUI(options) {
   }
 
   // If we are not already abstracting "contextmenu" events, do so now.
-  if (typeof this.contextmenu === 'function') {
-    this.contextmenu();
-  }
+  this.contextmenu();
 
   // Wrap the plugin function with an player instance-specific function. This
   // allows us to attach the modal to it without affecting other players on
