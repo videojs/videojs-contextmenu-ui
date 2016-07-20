@@ -1,3 +1,4 @@
+import document from 'global/document';
 import window from 'global/window';
 import videojs from 'video.js';
 import ContextMenuItem from './context-menu-item';
@@ -52,9 +53,9 @@ function findMenuPosition(pointerPosition, playerSize) {
  */
 function listener(e) {
 
-  // If there is already a menu, we want to dispose it. This allows the
-  // OS-provided context menu to be displayed on every other click.
-  if (hasMenu(this)) {
+  // We use this property as a toggle for whether or not to display the
+  // context menu UI.
+  if (!this.contextmenu.options.cancel) {
 
     // Cancel the next contextmenu event (if any), so the native contextmenu
     // will NOT be displayed and the custom contextmenu will.
@@ -74,9 +75,14 @@ function listener(e) {
 
   e.preventDefault();
 
-  videojs.log('vjs-contextmenu', e, pointerPosition, playerSize, menuPosition);
+  videojs.log(
+    'contextmenu-ui: saw vjs-contextmenu',
+    e,
+    pointerPosition,
+    playerSize,
+    menuPosition
+  );
 
-  this.pause();
   maybeDisposeMenu(this);
 
   cmui.menu = new Menu(this);
@@ -101,7 +107,22 @@ function listener(e) {
   });
 
   this.addChild(cmui.menu);
-  this.one('play', () => maybeDisposeMenu(this));
+
+  // Override the default "play/pause on click/tap" behavior for the player
+  // and close the contextmenu instead on the first interaction outside of
+  // the contextmenu. Unfortunately, this means using some private video.js
+  // APIs... :(
+  const closeMenuListener = (ee) => {
+    videojs.log('contextmenu-ui: closeMenuListener', ee);
+    this.off(this.tech_, ['mousedown', 'touchstart'], closeMenuListener);
+    videojs.off(document, ['mousedown', 'touchstart'], closeMenuListener);
+    this.addTechControlsListeners_();
+    maybeDisposeMenu(this);
+  };
+
+  this.removeTechControlsListeners_();
+  this.on(this.tech_, ['mousedown', 'touchstart'], closeMenuListener);
+  videojs.on(document, ['mousedown', 'touchstart'], closeMenuListener);
 }
 
 /**
