@@ -2,7 +2,10 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Removed the modal in favor of a menu
+* Cleaned up UI design
+* Context menu now appears only on _alternating_ contextmenu events (if those are what triggered the vjs-contextmenu event)
+* Context menu hides when the user begins interacting with the player or the document outside the player
 
 --------------------
 
