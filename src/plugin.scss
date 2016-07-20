@@ -18,6 +18,11 @@ $prefix: '.vjs-contextmenu-ui';
     margin: 0 0 1px;
     padding: 0.5em 1em;
 
+    // Override video.js styles for menus
+    font-size: 1em;
+    line-height: 1.2;
+    text-transform: none;
+
     &:active, &:hover {
       background-color: rgba(0, 0, 0, 0.5);
       text-shadow: 0em 0em 1em white;
