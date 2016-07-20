@@ -24,11 +24,10 @@
       player.contextmenuUI({
         content: [{
           href: 'https://www.brightcove.com/',
-          text: 'Brightcove'
+          label: 'Brightcove'
         }, {
-          text: 'Example Link',
-          listener: function(e) {
-            e.preventDefault();
+          label: 'Example Link',
+          listener: function() {
             alert('you clicked the example link!');
           }
         }]

@@ -36,13 +36,12 @@ player.contextmenuUI({
 
     // A plain old link.
     href: 'https://www.brightcove.com/',
-    text: 'Brightcove'
+    label: 'Brightcove'
   }, {
 
     // A link with a listener. Its `href` will automatically be `#`.
-    text: 'Example Link',
-    listener: function(e) {
-      e.preventDefault();
+    label: 'Example Link',
+    listener: function() {
       alert('you clicked the example link!');
     }
   }]
@@ -58,7 +57,7 @@ The plugin requires that `content` be passed as an array. If it is not, an error
 
 - `href`: Defines the value of the `href` attribute of the generated link.
 - `listener`: A function which will be bound to the `click` event of the generated link.
-- `text`: Text for the link.
+- `label`: Text for the link.
 
 ## Inclusion
 

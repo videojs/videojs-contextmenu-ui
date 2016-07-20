@@ -1,25 +1,26 @@
 $prefix: '.vjs-contextmenu-ui';
 
-#{$prefix}-modal {
+#{$prefix}-menu {
+  position: absolute;
 
-  #{$prefix}-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .vjs-menu-content {
+
+    // Same background-color as the control bar.
+    background-color: #2B333F;
+    background-color: rgba(43, 51, 63, 0.7);
+    border-radius: 0.3em;
+    padding: 0.25em;
   }
 
-  #{$prefix}-item {
-    clear: both;
-  }
-
-  #{$prefix}-link {
-    color: white;
-    float: left;
-    padding: .5em 1em;
-    text-decoration: none;
+  .vjs-menu-item {
+    border-radius: 0.3em;
+    cursor: pointer;
+    margin: 0 0 1px;
+    padding: 0.5em 1em;
 
     &:active, &:hover {
-      background-color: rgba(255, 255, 255, 0.25);
+      background-color: rgba(0, 0, 0, 0.5);
+      text-shadow: 0em 0em 1em white;
     }
   }
 }

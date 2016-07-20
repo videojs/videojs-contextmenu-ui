@@ -73,6 +73,7 @@
     "test/"
   ],
   "dependencies": {
+    "global": "^4.3.0",
     "video.js": "^5.10.1"
   },
   "devDependencies": {
@@ -87,7 +88,6 @@
     "chg": "^0.3.2",
     "ghooks": "^1.1.1",
     "glob": "^6.0.3",
-    "global": "^4.3.0",
     "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
     "karma-detect-browsers": "^2.0.2",
