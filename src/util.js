@@ -77,3 +77,23 @@ export function getPointerPosition(el, event) {
 
   return position;
 }
+
+/**
+ * Whether a given el is a descendant of parent el.
+ *
+ * @param  {Element} el
+ * @param  {Element} parent
+ * @return {Boolean}
+ */
+export function isDescendantOf(el, parent) {
+  let temp = el;
+
+  while (temp.parentNode) {
+    if (temp.parentNode === parent) {
+      return true;
+    }
+    temp = temp.parentNode;
+  }
+
+  return false;
+}

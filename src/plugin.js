@@ -2,7 +2,7 @@ import document from 'global/document';
 import window from 'global/window';
 import videojs from 'video.js';
 import ContextMenuItem from './context-menu-item';
-import {getPointerPosition} from './util';
+import {getPointerPosition, isDescendantOf} from './util';
 
 const Menu = videojs.getComponent('Menu');
 const CLASS_PREFIX = 'vjs-contextmenu-ui';
@@ -30,15 +30,6 @@ function maybeDisposeMenu(player) {
     player.contextmenuUI.menu.dispose();
     delete player.contextmenuUI.menu;
   }
-}
-
-/**
- * Cleans up in the case of a player being disposed.
- *
- * @param  {Player} player
- */
-function playerIsDisposing(player) {
-
 }
 
 /**
@@ -122,21 +113,28 @@ function onVjsContextMenu(e) {
   // and close the contextmenu instead on the first interaction outside of
   // the contextmenu. Unfortunately, this means using some private video.js
   // APIs... :(
-  cmui.closeMenuListener = videojs.bind(this, function(ee) {
-    videojs.log('contextmenu-ui: closeMenuListener', ee);
-    videojs.off(document, ['mousedown', 'touchstart'], cmui.closeMenuListener);
+  cmui.closeMenu = videojs.bind(this, function(ee) {
+
+    // Avoid triggering if the event is targeting an element within the menu.
+    if (ee && isDescendantOf(ee.target, cmui.menu.el())) {
+      ee.stopPropagation();
+      return;
+    }
+
+    videojs.log('contextmenu-ui: closeMenu');
+    videojs.off(document, ['mousedown', 'touchstart'], cmui.closeMenu);
 
     // If the player itself has not been disposed...
     if (this.el()) {
-      this.off(this.tech_, ['mousedown', 'touchstart'], cmui.closeMenuListener);
+      this.off(this.tech_, ['mousedown', 'touchstart'], cmui.closeMenu);
       this.addTechControlsListeners_();
       maybeDisposeMenu(this);
     }
   });
 
   this.removeTechControlsListeners_();
-  this.on(this.tech_, ['mousedown', 'touchstart'], cmui.closeMenuListener);
-  videojs.on(document, ['mousedown', 'touchstart'], cmui.closeMenuListener);
+  this.on(this.tech_, ['mousedown', 'touchstart'], cmui.closeMenu);
+  videojs.on(document, ['mousedown', 'touchstart'], cmui.closeMenu);
 }
 
 /**
@@ -178,7 +176,6 @@ function contextmenuUI(options) {
 
   this.
     on('vjs-contextmenu', cmui.onVjsContextMenu).
-    on('dispose', playerIsDisposing).
     ready(() => this.addClass(CLASS_PREFIX));
 }
 
