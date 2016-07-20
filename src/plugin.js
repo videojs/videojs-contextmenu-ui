@@ -26,9 +26,19 @@ function hasMenu(player) {
  */
 function maybeDisposeMenu(player) {
   if (hasMenu(player)) {
+    player.removeChild(player.contextmenuUI.menu);
     player.contextmenuUI.menu.dispose();
     delete player.contextmenuUI.menu;
   }
+}
+
+/**
+ * Cleans up in the case of a player being disposed.
+ *
+ * @param  {Player} player
+ */
+function playerIsDisposing(player) {
+
 }
 
 /**
@@ -51,7 +61,7 @@ function findMenuPosition(pointerPosition, playerSize) {
  *
  * @param  {Event} e
  */
-function listener(e) {
+function onVjsContextMenu(e) {
 
   // We use this property as a toggle for whether or not to display the
   // context menu UI.
@@ -112,17 +122,21 @@ function listener(e) {
   // and close the contextmenu instead on the first interaction outside of
   // the contextmenu. Unfortunately, this means using some private video.js
   // APIs... :(
-  const closeMenuListener = (ee) => {
+  cmui.closeMenuListener = videojs.bind(this, function(ee) {
     videojs.log('contextmenu-ui: closeMenuListener', ee);
-    this.off(this.tech_, ['mousedown', 'touchstart'], closeMenuListener);
-    videojs.off(document, ['mousedown', 'touchstart'], closeMenuListener);
-    this.addTechControlsListeners_();
-    maybeDisposeMenu(this);
-  };
+    videojs.off(document, ['mousedown', 'touchstart'], cmui.closeMenuListener);
+
+    // If the player itself has not been disposed...
+    if (this.el()) {
+      this.off(this.tech_, ['mousedown', 'touchstart'], cmui.closeMenuListener);
+      this.addTechControlsListeners_();
+      maybeDisposeMenu(this);
+    }
+  });
 
   this.removeTechControlsListeners_();
-  this.on(this.tech_, ['mousedown', 'touchstart'], closeMenuListener);
-  videojs.on(document, ['mousedown', 'touchstart'], closeMenuListener);
+  this.on(this.tech_, ['mousedown', 'touchstart'], cmui.closeMenuListener);
+  videojs.on(document, ['mousedown', 'touchstart'], cmui.closeMenuListener);
 }
 
 /**
@@ -141,7 +155,7 @@ function contextmenuUI(options) {
   // If we have already invoked the plugin, teardown before setting up again.
   if (this.contextmenuUI !== contextmenuUI) {
     maybeDisposeMenu(this);
-    this.off('vjs-contextmenu', this.contextmenuUI.listener);
+    this.off('vjs-contextmenu', this.contextmenuUI.onVjsContextMenu);
 
     // Deleting the player-specific contextmenuUI plugin function/namespace will
     // restore the original plugin function, so it can be called again.
@@ -158,12 +172,14 @@ function contextmenuUI(options) {
     contextmenuUI.apply(this, arguments);
   };
 
-  cmui.listener = videojs.bind(this, listener);
+  cmui.onVjsContextMenu = videojs.bind(this, onVjsContextMenu);
   cmui.content = options.content;
   cmui.VERSION = '__VERSION__';
 
-  this.on('vjs-contextmenu', cmui.listener);
-  this.ready(() => this.addClass(CLASS_PREFIX));
+  this.
+    on('vjs-contextmenu', cmui.onVjsContextMenu).
+    on('dispose', playerIsDisposing).
+    ready(() => this.addClass(CLASS_PREFIX));
 }
 
 videojs.plugin('contextmenuUI', contextmenuUI);

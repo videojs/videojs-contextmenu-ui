@@ -36,6 +36,7 @@ module.exports = function(config) {
       'node_modules/sinon/pkg/sinon-ie.js',
       'node_modules/video.js/dist/video.js',
       'node_modules/video.js/dist/video-js.css',
+      'node_modules/videojs-contextmenu/dist/videojs-contextmenu.js',
       'test/dist/bundle.js'
     ],
 

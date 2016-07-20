@@ -1,12 +1,9 @@
 import document from 'global/document';
-
 import QUnit from 'qunit';
 import sinon from 'sinon';
+import tsmlj from 'tsmlj';
 import videojs from 'video.js';
-
 import plugin from '../src/plugin';
-
-const Player = videojs.getComponent('Player');
 
 QUnit.test('the environment is sane', function(assert) {
   assert.strictEqual(typeof Array.isArray, 'function', 'es5 exists');
@@ -29,30 +26,75 @@ QUnit.module('videojs-contextmenu-ui', {
     this.video = document.createElement('video');
     this.fixture.appendChild(this.video);
     this.player = videojs(this.video);
+
+    this.player.contextmenuUI({
+      content: [{
+        href: 'https://www.brightcove.com/',
+        label: 'Brightcove'
+      }, {
+        label: 'Example Link',
+        listener() {
+          videojs.log('you clicked the example link!');
+        }
+      }]
+    });
+
+    // Tick the clock forward enough to trigger the player to be "ready".
+    this.clock.tick(1);
   },
 
   afterEach() {
+
+    // Make sure we shut off document-level listeners we may have created!
+    // videojs.off(document, ['mousedown', 'touchstart']);
     this.player.dispose();
     this.clock.restore();
   }
 });
 
-QUnit.test('registers itself with video.js', function(assert) {
-  assert.expect(2);
+QUnit.test(tsmlj`
+  opens a custom context menu on the first "vjs-contextmenu" event encountered
+`, function(assert) {
+  this.player.trigger({
+    type: 'vjs-contextmenu',
+    pageX: 0,
+    pageY: 0
+  });
 
-  assert.strictEqual(
-    Player.prototype.contextmenuUI,
-    plugin,
-    'videojs-contextmenu-ui plugin was registered'
-  );
+  assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 1);
+});
 
-  this.player.contextmenuUI({content: []});
+QUnit.test(tsmlj`
+  closes the custom context menu when interacting with the player
+`, function(assert) {
+  this.player.trigger({
+    type: 'vjs-contextmenu',
+    pageX: 0,
+    pageY: 0
+  });
 
-  // Tick the clock forward enough to trigger the player to be "ready".
-  this.clock.tick(1);
+  this.player.tech_.trigger('mousedown');
 
-  assert.ok(
-    this.player.hasClass('vjs-contextmenu-ui'),
-    'the plugin adds a class to the player'
-  );
+  assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
+});
+
+QUnit.test(tsmlj`
+  does not open a custom context menu on the second "vjs-contextmenu" event
+  encountered
+`, function(assert) {
+  this.player.trigger({
+    type: 'vjs-contextmenu',
+    pageX: 0,
+    pageY: 0
+  });
+
+  this.player.tech_.trigger('mousedown');
+
+  this.player.trigger({
+    type: 'vjs-contextmenu',
+    pageX: 0,
+    pageY: 0
+  });
+
+  assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
 });
