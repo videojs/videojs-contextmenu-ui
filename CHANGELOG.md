@@ -6,6 +6,9 @@ _(none)_
 
 --------------------
 
+## 3.0.1 (2016-07-20)
+_(none)_
+
 ## 3.0.0 (2016-07-20)
 * Removed the modal in favor of a menu
 * Cleaned up UI design
