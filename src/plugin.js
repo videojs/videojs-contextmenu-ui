@@ -69,6 +69,13 @@ function onVjsContextMenu(e) {
     position: menuPosition
   });
 
+  // This is for backward compatibility. We no longer have the `closeMenu`
+  // function, but removing it would necessitate a major version bump.
+  this.contextmenuUI.closeMenu = () => {
+    videojs.warn('player.contextmenuUI.closeMenu() is deprecated, please use player.contextmenuUI.menu.dispose() instead!');
+    menu.dispose();
+  };
+
   menu.on('dispose', () => {
 
     videojs.log('contextmenu-ui: disposed menu');
