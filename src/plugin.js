@@ -1,11 +1,7 @@
 import document from 'global/document';
-import window from 'global/window';
 import videojs from 'video.js';
-import ContextMenuItem from './context-menu-item';
-import {getPointerPosition, isDescendantOf} from './util';
-
-const Menu = videojs.getComponent('Menu');
-const CLASS_PREFIX = 'vjs-contextmenu-ui';
+import ContextMenu from './context-menu';
+import {getPointerPosition} from './util';
 
 /**
  * Whether or not the player has an active context menu.
@@ -17,19 +13,6 @@ function hasMenu(player) {
   return player.hasOwnProperty('contextmenuUI') &&
     player.contextmenuUI.hasOwnProperty('menu') &&
     player.contextmenuUI.menu.el();
-}
-
-/**
- * Disposes the menu from a player if it hasn't already been disposed.
- *
- * @param  {Player} player
- */
-function maybeDisposeMenu(player) {
-  if (hasMenu(player)) {
-    player.removeChild(player.contextmenuUI.menu);
-    player.contextmenuUI.menu.dispose();
-    delete player.contextmenuUI.menu;
-  }
 }
 
 /**
@@ -54,87 +37,59 @@ function findMenuPosition(pointerPosition, playerSize) {
  */
 function onVjsContextMenu(e) {
 
-  // We use this property as a toggle for whether or not to display the
-  // context menu UI.
-  if (!this.contextmenu.options.cancel) {
-
-    // Cancel the next contextmenu event (if any), so the native contextmenu
-    // will NOT be displayed and the custom contextmenu will.
-    this.contextmenu.options.cancel = true;
-    maybeDisposeMenu(this);
+  // If this event happens while the custom menu is open, close it and do
+  // nothing else. This will cause native contextmenu events to be intercepted
+  // once again; so, the next time a contextmenu event is encountered, we'll
+  // open the custom menu.
+  if (hasMenu(this)) {
+    videojs.log('contextmenu-ui: saw vjs-contextmenu, but menu open');
+    this.contextmenuUI.menu.dispose();
     return;
   }
 
-  // Do NOT cancel the next contextmenu event (if any), so the native
-  // contextmenu will be displayed and the custom contextmenu will NOT.
+  // Stop canceling the native contextmenu event until further notice.
   this.contextmenu.options.cancel = false;
 
-  const cmui = this.contextmenuUI;
+  // Calculate the positioning of the menu based on the player size and
+  // triggering event.
   const pointerPosition = getPointerPosition(this.el(), e);
   const playerSize = this.el().getBoundingClientRect();
   const menuPosition = findMenuPosition(pointerPosition, playerSize);
 
   e.preventDefault();
 
-  videojs.log(
-    'contextmenu-ui: saw vjs-contextmenu',
-    e,
-    pointerPosition,
-    playerSize,
-    menuPosition
-  );
+  videojs.log('contextmenu-ui: saw vjs-contextmenu',
+              e,
+              pointerPosition,
+              playerSize,
+              menuPosition);
 
-  maybeDisposeMenu(this);
-
-  cmui.menu = new Menu(this);
-  cmui.menu.addClass(`${CLASS_PREFIX}-menu`);
-
-  cmui.menu.el().style.left = `${menuPosition.left}px`;
-  cmui.menu.el().style.top = `${menuPosition.top}px`;
-
-  cmui.content.forEach(c => {
-    let fn = function() {};
-
-    if (typeof c.listener === 'function') {
-      fn = c.listener;
-    } else if (typeof c.href === 'string') {
-      fn = () => window.open(c.href);
-    }
-
-    cmui.menu.addItem(new ContextMenuItem(this, {
-      label: c.label,
-      listener: videojs.bind(this, fn)
-    }));
+  const menu = this.contextmenuUI.menu = new ContextMenu(this, {
+    content: this.contextmenuUI.content,
+    position: menuPosition
   });
 
-  this.addChild(cmui.menu);
+  // This is for backward compatibility. We no longer have the `closeMenu`
+  // function, but removing it would necessitate a major version bump.
+  this.contextmenuUI.closeMenu = () => {
+    videojs.warn('player.contextmenuUI.closeMenu() is deprecated, please use player.contextmenuUI.menu.dispose() instead!');
+    menu.dispose();
+  };
 
-  // Override the default "play/pause on click/tap" behavior for the player
-  // and close the contextmenu instead on the first interaction outside of
-  // the contextmenu. Unfortunately, this means using some private video.js
-  // APIs... :(
-  cmui.closeMenu = videojs.bind(this, function(ee) {
+  menu.on('dispose', () => {
 
-    // Avoid triggering if the event is targeting an element within the menu.
-    if (ee && isDescendantOf(ee.target, cmui.menu.el())) {
-      ee.stopPropagation();
-      return;
-    }
+    videojs.log('contextmenu-ui: disposed menu');
 
-    videojs.log('contextmenu-ui: closeMenu');
-    videojs.off(document, ['mousedown', 'touchstart'], cmui.closeMenu);
-
-    // If the player itself has not been disposed...
-    if (this.el()) {
-      this.off(this.tech_, ['mousedown', 'touchstart'], cmui.closeMenu);
-      this.addTechControlsListeners_();
-      maybeDisposeMenu(this);
-    }
+    // Begin canceling contextmenu events again, so subsequent events will
+    // cause the custom menu to be displayed again.
+    this.contextmenu.options.cancel = true;
+    videojs.off(document, ['click', 'tap'], menu.dispose);
+    this.removeChild(menu);
+    delete this.contextmenuUI.menu;
   });
 
-  this.removeTechControlsListeners_();
-  this.on(this.tech_, ['mousedown', 'touchstart'], cmui.closeMenu);
-  videojs.on(document, ['mousedown', 'touchstart'], cmui.closeMenu);
+  this.addChild(menu);
+  videojs.on(document, ['click', 'tap'], menu.dispose);
 }
 
 /**
@@ -151,8 +106,8 @@ function contextmenuUI(options) {
   }
 
   // If we have already invoked the plugin, teardown before setting up again.
-  if (this.contextmenuUI !== contextmenuUI) {
-    maybeDisposeMenu(this);
+  if (hasMenu(this)) {
+    this.contextmenuUI.menu.dispose();
     this.off('vjs-contextmenu', this.contextmenuUI.onVjsContextMenu);
 
     // Deleting the player-specific contextmenuUI plugin function/namespace will
@@ -176,7 +131,7 @@ function contextmenuUI(options) {
 
   this.
     on('vjs-contextmenu', cmui.onVjsContextMenu).
-    ready(() => this.addClass(CLASS_PREFIX));
+    ready(() => this.addClass('vjs-contextmenu-ui'));
 }
 
 videojs.plugin('contextmenuUI', contextmenuUI);

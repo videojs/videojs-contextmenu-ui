@@ -65,21 +65,7 @@ QUnit.test(tsmlj`
 });
 
 QUnit.test(tsmlj`
-  closes the custom context menu when interacting with the player
-`, function(assert) {
-  this.player.trigger({
-    type: 'vjs-contextmenu',
-    pageX: 0,
-    pageY: 0
-  });
-
-  this.player.tech_.trigger('mousedown');
-
-  assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
-});
-
-QUnit.test(tsmlj`
-  does not open a custom context menu on the second "vjs-contextmenu" event
+  closes the custom context menu on the second "vjs-contextmenu" event
   encountered
 `, function(assert) {
   this.player.trigger({
@@ -88,13 +74,26 @@ QUnit.test(tsmlj`
     pageY: 0
   });
 
-  this.player.tech_.trigger('mousedown');
-
   this.player.trigger({
     type: 'vjs-contextmenu',
     pageX: 0,
     pageY: 0
   });
+
+  assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
+});
+
+QUnit.test(tsmlj`
+  closes the custom context menu when interacting with the player or document
+  outside the menu
+`, function(assert) {
+  this.player.trigger({
+    type: 'vjs-contextmenu',
+    pageX: 0,
+    pageY: 0
+  });
+
+  videojs.trigger(document, 'click');
 
   assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
 });
