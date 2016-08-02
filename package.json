@@ -1,6 +1,6 @@
 {
   "name": "videojs-contextmenu-ui",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A cross-device context menu UI for video.js players.",
   "main": "es5/plugin.js",
   "scripts": {
