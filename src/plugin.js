@@ -1,15 +1,7 @@
 import document from 'global/document';
-import window from 'global/window';
 import videojs from 'video.js';
 import ContextMenu from './context-menu';
-import {getPointerPosition, isDescendantOf} from './util';
-
-const closeEvents = {
-  mousedown: 'mouseup',
-  touchstart: 'touchend'
-};
-
-const closeEventTypes = Object.keys(closeEvents);
+import {getPointerPosition} from './util';
 
 /**
  * Whether or not the player has an active context menu.
@@ -21,17 +13,6 @@ function hasMenu(player) {
   return player.hasOwnProperty('contextmenuUI') &&
     player.contextmenuUI.hasOwnProperty('menu') &&
     player.contextmenuUI.menu.el();
-}
-
-/**
- * Disposes the menu from a player if it hasn't already been disposed.
- *
- * @param  {Player} player
- */
-function maybeDisposeMenu(player) {
-  if (hasMenu(player)) {
-    player.contextmenuUI.menu.dispose();
-  }
 }
 
 /**

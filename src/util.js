@@ -57,13 +57,12 @@ export function findElPosition(el) {
  *         mouse position
  */
 export function getPointerPosition(el, event) {
-  let position = {};
-  let box = findElPosition(el);
-  let boxW = el.offsetWidth;
-  let boxH = el.offsetHeight;
-
-  let boxY = box.top;
-  let boxX = box.left;
+  const position = {};
+  const box = findElPosition(el);
+  const boxW = el.offsetWidth;
+  const boxH = el.offsetHeight;
+  const boxY = box.top;
+  const boxX = box.left;
   let pageY = event.pageY;
   let pageX = event.pageX;
 
@@ -76,24 +75,4 @@ export function getPointerPosition(el, event) {
   position.x = Math.max(0, Math.min(1, (pageX - boxX) / boxW));
 
   return position;
-}
-
-/**
- * Whether a given el is a descendant of parent el.
- *
- * @param  {Element} el
- * @param  {Element} parent
- * @return {Boolean}
- */
-export function isDescendantOf(el, parent) {
-  let temp = el;
-
-  while (temp.parentNode) {
-    if (temp.parentNode === parent) {
-      return true;
-    }
-    temp = temp.parentNode;
-  }
-
-  return false;
 }
