@@ -11,7 +11,7 @@ class ContextMenuItem extends MenuItem {
 
     // Close the containing menu after the call stack clears.
     window.setTimeout(() => {
-      this.player().contextmenuUI.closeMenu();
+      this.player().contextmenuUI.menu.dispose();
     }, 1);
   }
 }
