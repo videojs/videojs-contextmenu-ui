@@ -119,9 +119,8 @@ function contextmenuUI(options) {
   cmui.content = options.content;
   cmui.VERSION = '__VERSION__';
 
-  this.
-    on('vjs-contextmenu', cmui.onVjsContextMenu).
-    ready(() => this.addClass('vjs-contextmenu-ui'));
+  this.on('vjs-contextmenu', cmui.onVjsContextMenu);
+  this.ready(() => this.addClass('vjs-contextmenu-ui'));
 }
 
 videojs.plugin('contextmenuUI', contextmenuUI);
