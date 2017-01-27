@@ -42,7 +42,6 @@ function onVjsContextMenu(e) {
   // once again; so, the next time a contextmenu event is encountered, we'll
   // open the custom menu.
   if (hasMenu(this)) {
-    videojs.log('contextmenu-ui: saw vjs-contextmenu, but menu open');
     this.contextmenuUI.menu.dispose();
     return;
   }
@@ -58,12 +57,6 @@ function onVjsContextMenu(e) {
 
   e.preventDefault();
 
-  videojs.log('contextmenu-ui: saw vjs-contextmenu',
-              e,
-              pointerPosition,
-              playerSize,
-              menuPosition);
-
   const menu = this.contextmenuUI.menu = new ContextMenu(this, {
     content: this.contextmenuUI.content,
     position: menuPosition
@@ -77,9 +70,6 @@ function onVjsContextMenu(e) {
   };
 
   menu.on('dispose', () => {
-
-    videojs.log('contextmenu-ui: disposed menu');
-
     // Begin canceling contextmenu events again, so subsequent events will
     // cause the custom menu to be displayed again.
     this.contextmenu.options.cancel = true;
