@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* chore: better Travis build, and remove deprecation warnings
+_(none)_
 
 --------------------
+
+## 3.0.5 (2017-02-08)
+* chore: better Travis build, and remove deprecation warnings
 
 ## 3.0.4 (2017-01-26)
 * refactor: Updates for Video.js 6.0 compatibility.
