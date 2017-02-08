@@ -3,6 +3,9 @@ import videojs from 'video.js';
 import ContextMenu from './context-menu';
 import {getPointerPosition} from './util';
 
+// support VJS5 & VJS6 at the same time
+const registerPlugin = videojs.registerPlugin || videojs.plugin;
+
 /**
  * Whether or not the player has an active context menu.
  *
@@ -123,7 +126,7 @@ function contextmenuUI(options) {
   this.ready(() => this.addClass('vjs-contextmenu-ui'));
 }
 
-videojs.plugin('contextmenuUI', contextmenuUI);
+registerPlugin('contextmenuUI', contextmenuUI);
 contextmenuUI.VERSION = '__VERSION__';
 
 export default contextmenuUI;
