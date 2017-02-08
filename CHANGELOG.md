@@ -2,21 +2,22 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* chore: better Travis build, and remove deprecation warnings
 
 --------------------
 
 ## 3.0.4 (2017-01-26)
-_(none)_
+* refactor: Updates for Video.js 6.0 compatibility.
+* refactor: Removed logging statements.
 
 ## 3.0.3 (2016-08-02)
-_(none)_
+* Fix menu display logic (#1)
 
 ## 3.0.2 (2016-07-20)
-_(none)_
+* Override some video.js styles
 
 ## 3.0.1 (2016-07-20)
-_(none)_
+* Fixes an issue where menu item listeners did not fire
 
 ## 3.0.0 (2016-07-20)
 * Removed the modal in favor of a menu
