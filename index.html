@@ -22,15 +22,26 @@
       var player = window.player = videojs('videojs-contextmenu-ui-player');
 
       player.contextmenuUI({
-        content: [{
-          href: 'https://www.brightcove.com/',
-          label: 'Brightcove'
-        }, {
-          label: 'Example Link',
-          listener: function() {
-            alert('you clicked the example link!');
-          }
-        }]
+        content: function(player) {
+          var isPaused = player.paused();
+
+          return [
+            {
+              label: isPaused ? 'Play' : 'Pause',
+              listener: function() {
+                isPaused ? player.play() : player.pause();
+              }
+            }, {
+              href: 'https://www.brightcove.com/',
+              label: 'Brightcove'
+            }, {
+              label: 'Example Link',
+              listener: function() {
+                alert('you clicked the example link!');
+              }
+            }
+          ]
+        }
       });
     }(window, window.videojs));
   </script>

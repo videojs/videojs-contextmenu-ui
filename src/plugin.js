@@ -60,8 +60,14 @@ function onVjsContextMenu(e) {
 
   e.preventDefault();
 
+  // Allow dynamically setting the menu labels based on player
+  let content = this.contextmenuUI.content;
+
+  if (typeof content === 'function') {
+    content = content(this);
+  }
   const menu = this.contextmenuUI.menu = new ContextMenu(this, {
-    content: this.contextmenuUI.content,
+    content,
     position: menuPosition
   });
 
@@ -72,17 +78,25 @@ function onVjsContextMenu(e) {
     menu.dispose();
   };
 
+  // This is to handle a bug where firefox triggers both 'contextmenu' and 'click'
+  // events on rightclick, causing menu to open and then immediately close.
+  const clickHandler = (_e) => {
+    if (!(_e.type === 'click' && (_e.which === 3 || _e.button === 2))) {
+      menu.dispose();
+    }
+  };
+
   menu.on('dispose', () => {
     // Begin canceling contextmenu events again, so subsequent events will
     // cause the custom menu to be displayed again.
     this.contextmenu.options.cancel = true;
-    videojs.off(document, ['click', 'tap'], menu.dispose);
+    videojs.off(document, ['click', 'tap'], clickHandler);
     this.removeChild(menu);
     delete this.contextmenuUI.menu;
   });
 
   this.addChild(menu);
-  videojs.on(document, ['click', 'tap'], menu.dispose);
+  videojs.on(document, ['click', 'tap'], clickHandler);
 }
 
 /**
@@ -94,7 +108,7 @@ function onVjsContextMenu(e) {
  *           An array of objects which populate a content list within the menu.
  */
 function contextmenuUI(options) {
-  if (!Array.isArray(options.content)) {
+  if (!Array.isArray(options.content) && typeof options.content !== 'function') {
     throw new Error('"content" required');
   }
 

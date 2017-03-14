@@ -53,6 +53,55 @@ QUnit.module('videojs-contextmenu-ui', {
 });
 
 QUnit.test(tsmlj`
+  allows dynamically updating menu items values based on current player state
+`, function(assert) {
+  this.player.contextmenuUI.content = (player) => {
+    let isMuted = player.muted();
+
+    return [
+      {
+        label: isMuted ? 'Unmute' : 'Mute',
+        listener: () => {
+          player.muted(!isMuted);
+        }
+      }
+    ];
+  };
+
+  // Set initial mute state for player
+  this.player.muted(false);
+
+  // Show context menu
+  this.player.trigger({
+    type: 'vjs-contextmenu',
+    pageX: 0,
+    pageY: 0
+  });
+
+  // Assert that player shows option for 'muting'
+  let menuItem = this.player.$$('.vjs-contextmenu-ui-menu .vjs-menu-item')[0];
+
+  assert.strictEqual(menuItem.innerText, 'mute');
+
+  // Click menuitem for listener to take effect
+  videojs.trigger(menuItem, 'click');
+  this.clock.tick(1);
+
+  assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
+
+  // Show context menu again
+  this.player.trigger({
+    type: 'vjs-contextmenu',
+    pageX: 0,
+    pageY: 0
+  });
+
+  // Make sure the same menu item now shows 'Mute'
+  menuItem = this.player.$$('.vjs-contextmenu-ui-menu .vjs-menu-item')[0];
+  assert.strictEqual(menuItem.innerText, 'unmute');
+});
+
+QUnit.test(tsmlj`
   opens a custom context menu on the first "vjs-contextmenu" event encountered
 `, function(assert) {
   this.player.trigger({
