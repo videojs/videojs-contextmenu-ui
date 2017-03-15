@@ -337,17 +337,21 @@ function findMenuPosition(pointerPosition, playerSize) {
 function onVjsContextMenu(e) {
   var _this = this;
 
-  // If this event happens while the custom menu is open, close it and do
-  // nothing else. This will cause native contextmenu events to be intercepted
-  // once again; so, the next time a contextmenu event is encountered, we'll
-  // open the custom menu.
   if (hasMenu(this)) {
     this.contextmenuUI.menu.dispose();
-    return;
+    if (this.contextmenuUI.showNativeOnRecurringEvent) {
+      // If this event happens while the custom menu is open, close it and do
+      // nothing else. This will cause native contextmenu events to be intercepted
+      // once again; so, the next time a contextmenu event is encountered, we'll
+      // open the custom menu.
+      return;
+    }
   }
 
-  // Stop canceling the native contextmenu event until further notice.
-  this.contextmenu.options.cancel = false;
+  if (this.contextmenuUI.showNativeOnRecurringEvent) {
+    // Stop canceling the native contextmenu event until further notice.
+    this.contextmenu.options.cancel = false;
+  }
 
   // Calculate the positioning of the menu based on the player size and
   // triggering event.
@@ -396,6 +400,10 @@ function onVjsContextMenu(e) {
   _videoJs2['default'].on(_globalDocument2['default'], ['click', 'tap'], clickHandler);
 }
 
+var defaults = {
+  showNativeOnRecurringEvent: true
+};
+
 /**
  * Creates a menu for videojs-contextmenu abstract event(s).
  *
@@ -406,6 +414,8 @@ function onVjsContextMenu(e) {
  */
 function contextmenuUI(options) {
   var _this2 = this;
+
+  Object.assign({}, defaults, options);
 
   if (!Array.isArray(options.content) && typeof options.content !== 'function') {
     throw new Error('"content" required');
@@ -433,6 +443,7 @@ function contextmenuUI(options) {
 
   cmui.onVjsContextMenu = _videoJs2['default'].bind(this, onVjsContextMenu);
   cmui.content = options.content;
+  cmui.showNativeOnRecurringEvent = options.showNativeOnRecurringEvent;
   cmui.VERSION = '3.0.5';
 
   this.on('vjs-contextmenu', cmui.onVjsContextMenu);
