@@ -2,33 +2,18 @@
   "name": "videojs-contextmenu-ui",
   "version": "3.0.5",
   "description": "A cross-device context menu UI for video.js players.",
-  "main": "es5/plugin.js",
+  "main": "dist/es5/index.js",
   "scripts": {
-    "prebuild": "npm run clean",
-    "build": "npm-run-all -p build:*",
-    "build:css": "npm-run-all build:css:sass build:css:bannerize",
-    "build:css:bannerize": "bannerize dist/videojs-contextmenu-ui.css --banner=scripts/banner.ejs",
-    "build:css:sass": "node-sass src/plugin.scss dist/videojs-contextmenu-ui.css --output-style=compressed --linefeed=lf",
-    "build:js": "npm-run-all build:js:babel build:js:browserify build:js:bannerize build:js:uglify",
-    "build:js:babel": "babel src -d es5",
-    "build:js:bannerize": "bannerize dist/videojs-contextmenu-ui.js --banner=scripts/banner.ejs",
-    "build:js:browserify": "browserify . -s videojs-contextmenu-ui -o dist/videojs-contextmenu-ui.js",
-    "build:js:uglify": "uglifyjs dist/videojs-contextmenu-ui.js --comments --mangle --compress -o dist/videojs-contextmenu-ui.min.js",
-    "build:test": "babel-node scripts/build-test.js",
-    "change": "chg add",
-    "clean": "rimraf dist test/dist es5 && mkdirp dist test/dist es5",
-    "lint": "vjsstandard",
-    "start": "babel-node scripts/server.js",
-    "pretest": "npm-run-all lint build",
-    "test": "karma start test/karma.conf.js",
-    "test:chrome": "npm run pretest && karma start test/karma.conf.js --browsers Chrome",
-    "test:firefox": "npm run pretest && karma start test/karma.conf.js --browsers Firefox",
-    "test:ie": "npm run pretest && karma start test/karma.conf.js --browsers IE",
-    "test:safari": "npm run pretest && karma start test/karma.conf.js --browsers Safari",
+    "build": "sb-build",
+    "clean": "sb-clean",
+    "lint": "sb-lint",
+    "start": "sb-start",
+    "test": "sb-test",
+    "watch": "sb-watch",
     "preversion": "npm test",
-    "version": "babel-node scripts/version.js",
-    "postversion": "babel-node scripts/postversion.js",
-    "prepublish": "npm run build"
+    "postversion": "sb-release",
+    "prepublish": "npm run build",
+    "prepush": "npm run lint"
   },
   "keywords": [
     "videojs",
@@ -36,80 +21,44 @@
   ],
   "author": "Brightcove, Inc.",
   "license": "Apache-2.0",
-  "browserify": {
-    "transform": [
-      "browserify-shim",
-      "browserify-versionify"
-    ]
-  },
-  "browserify-shim": {
-    "qunit": "global:QUnit",
-    "sinon": "global:sinon",
-    "video.js": "global:videojs"
-  },
-  "style": "dist/videojs-contextmenu-ui.css",
-  "videojs-plugin": {
-    "style": "dist/videojs-contextmenu-ui.css",
-    "script": "dist/videojs-contextmenu-ui.min.js"
-  },
-  "vjsstandard": {
-    "ignore": [
-      "dist",
-      "docs",
-      "es5",
-      "test/dist",
-      "test/karma.conf.js"
-    ]
-  },
   "files": [
+    "CHANGELOG.md",
     "CONTRIBUTING.md",
-    "bower.json",
-    "dist/",
+    "README.md",
+    "dist/browser",
+    "dist/docs",
+    "dist/es5",
+    "dist/lang",
     "docs/",
-    "es5/",
     "index.html",
-    "scripts/",
-    "src/",
-    "test/"
+    "src/"
   ],
   "dependencies": {
     "global": "^4.3.0",
-    "video.js": "^5.10.1"
+    "video.js": "^5.16.0"
   },
   "devDependencies": {
-    "babel": "^5.8.35",
-    "babelify": "^6.4.0",
-    "bannerize": "^1.0.2",
-    "bluebird": "^3.2.2",
-    "browserify": "^12.0.2",
-    "browserify-shim": "^3.8.12",
-    "browserify-versionify": "^1.0.6",
-    "budo": "^8.0.4",
-    "chg": "^0.3.2",
-    "ghooks": "^1.1.1",
-    "glob": "^6.0.3",
-    "karma": "^0.13.19",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-detect-browsers": "^2.0.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-ie-launcher": "^0.2.0",
-    "karma-qunit": "^0.1.9",
-    "karma-safari-launcher": "^0.1.1",
-    "lodash": "^4.11.2",
-    "mkdirp": "^0.5.1",
-    "node-sass": "^3.4.2",
-    "npm-run-all": "^1.5.1",
-    "qunitjs": "^1.21.0",
-    "rimraf": "^2.5.1",
+    "husky": "^0.13.1",
     "sinon": "~1.14.0",
     "tsmlj": "^1.0.0",
-    "uglify-js": "^2.6.1",
     "videojs-contextmenu": "^1.0.0",
-    "videojs-standard": "^4.0.0"
+    "videojs-spellbook": "^3.1.3"
   },
-  "config": {
-    "ghooks": {
-      "pre-push": "npm run lint"
+  "jsnext:main": "src/js/index.js",
+  "engines": {
+    "node": ">=4.4.0"
+  },
+  "generator-videojs-plugin": {
+    "version": "3.2.0"
+  },
+  "spellbook": {
+    "lang": false,
+    "ie8": true,
+    "test": {
+      "files": [
+        "node_modules/videojs-contextmenu/dist/videojs-contextmenu.js"
+      ]
     }
+
   }
 }
