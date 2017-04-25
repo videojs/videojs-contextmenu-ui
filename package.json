@@ -2,7 +2,7 @@
   "name": "videojs-contextmenu-ui",
   "version": "3.0.5",
   "description": "A cross-device context menu UI for video.js players.",
-  "main": "dist/es5/index.js",
+  "main": "build/es5/index.js",
   "scripts": {
     "build": "sb-build",
     "clean": "sb-clean",
@@ -25,10 +25,9 @@
     "CHANGELOG.md",
     "CONTRIBUTING.md",
     "README.md",
-    "dist/browser",
-    "dist/docs",
-    "dist/es5",
-    "dist/lang",
+    "build/docs",
+    "build/es5",
+    "dist/",
     "docs/",
     "index.html",
     "src/"
@@ -42,7 +41,7 @@
     "sinon": "~1.14.0",
     "tsmlj": "^1.0.0",
     "videojs-contextmenu": "^1.0.0",
-    "videojs-spellbook": "^3.1.3"
+    "videojs-spellbook": "^4.0.0"
   },
   "jsnext:main": "src/js/index.js",
   "engines": {
@@ -53,12 +52,11 @@
   },
   "spellbook": {
     "lang": false,
-    "ie8": true,
     "test": {
       "files": [
         "node_modules/videojs-contextmenu/dist/videojs-contextmenu.js"
       ]
-    }
-
+    },
+    "ie8": true
   }
 }

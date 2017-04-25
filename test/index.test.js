@@ -1,5 +1,5 @@
 import document from 'global/document';
-import QUnit from 'qunit';
+import QUnit from 'qunitjs';
 import sinon from 'sinon';
 import tsmlj from 'tsmlj';
 import videojs from 'video.js';
