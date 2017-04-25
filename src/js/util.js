@@ -11,6 +11,7 @@ import window from 'global/window';
  * @function findElPosition
  * @param {Element} el Element from which to get offset
  * @return {Object}
+ *         The left/top postion of the element
  */
 export function findElPosition(el) {
   let box;

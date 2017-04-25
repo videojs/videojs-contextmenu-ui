@@ -10,7 +10,10 @@ const registerPlugin = videojs.registerPlugin || videojs.plugin;
  * Whether or not the player has an active context menu.
  *
  * @param  {Player} player
- * @return {Boolean}
+ *         The player to check
+ *
+ * @return {boolean}
+ *         whether or not the player has an active context menu
  */
 function hasMenu(player) {
   return player.hasOwnProperty('contextmenuUI') &&
@@ -23,8 +26,13 @@ function hasMenu(player) {
  * size.
  *
  * @param  {Object} pointerPosition
+ *         The position of the pointer
+ *
  * @param  {Object} playerSize
+ *         The size of the player
+ *
  * @return {Object}
+ *         The left/top postion of the player on the page
  */
 function findMenuPosition(pointerPosition, playerSize) {
   return {
@@ -37,6 +45,7 @@ function findMenuPosition(pointerPosition, playerSize) {
  * Handles vjs-contextmenu events.
  *
  * @param  {Event} e
+ *         The event that caused this function to run
  */
 function onVjsContextMenu(e) {
 
@@ -68,7 +77,8 @@ function onVjsContextMenu(e) {
   // This is for backward compatibility. We no longer have the `closeMenu`
   // function, but removing it would necessitate a major version bump.
   this.contextmenuUI.closeMenu = () => {
-    videojs.warn('player.contextmenuUI.closeMenu() is deprecated, please use player.contextmenuUI.menu.dispose() instead!');
+    videojs.warn('player.contextmenuUI.closeMenu() is deprecated, ' +
+      'please use player.contextmenuUI.menu.dispose() instead!');
     menu.dispose();
   };
 
@@ -88,8 +98,9 @@ function onVjsContextMenu(e) {
 /**
  * Creates a menu for videojs-contextmenu abstract event(s).
  *
- * @function contextmenuUI
  * @param    {Object} options
+ *           options for the plugin
+ *
  * @param    {Array}  options.content
  *           An array of objects which populate a content list within the menu.
  */

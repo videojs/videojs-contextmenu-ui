@@ -6,8 +6,23 @@ const Menu = videojs.getComponent('Menu');
 // support VJS5 & VJS6 at the same time
 const dom = videojs.dom || videojs;
 
+/**
+ * A right click context menu extension
+ *
+ * @extends Menu
+ */
 class ContextMenu extends Menu {
 
+  /**
+   * Creates an instance of the this class.
+   *
+   * @param {Player} player
+   *        The `Player` that this class should be attached to.
+   *
+   * @param {Object} [options={}]
+   *        The key/value store of player options.
+   *
+   */
   constructor(player, options) {
     super(player, options);
 
@@ -31,6 +46,12 @@ class ContextMenu extends Menu {
     });
   }
 
+  /**
+   * Create the `ContextMenu's DOM element
+
+   * @return {Element}
+   *         The element that gets created.
+   */
   createEl() {
     const el = super.createEl();
 
