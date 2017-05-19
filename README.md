@@ -10,12 +10,6 @@ A cross-device context menu UI for video.js players.
 npm install --save videojs-contextmenu videojs-contextmenu-ui
 ```
 
-The npm installation is preferred, but Bower works, too.
-
-```sh
-bower install --save videojs-contextmenu videojs-contextmenu-ui
-```
-
 ## Usage
 
 The plugin is invoked as a method of a video.js `Player` object:
