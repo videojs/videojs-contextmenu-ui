@@ -1,6 +1,6 @@
 {
   "name": "videojs-contextmenu-ui",
-  "version": "3.0.5",
+  "version": "4.0.0",
   "description": "A cross-device context menu UI for video.js players.",
   "main": "dist/videojs-contextmenu-ui.cjs.js",
   "keywords": [

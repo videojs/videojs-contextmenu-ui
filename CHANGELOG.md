@@ -1,10 +1,13 @@
-CHANGELOG
-=========
+<a name="4.0.0"></a>
+# 4.0.0 (2017-05-19)
 
-## HEAD (Unreleased)
-_(none)_
+### Chores
 
---------------------
+* Update tooling using generator v5 prerelease. (#11) ([4b15da5](https://github.com/brightcove/videojs-contextmenu-ui/commit/4b15da5))
+
+### BREAKING CHANGES
+
+* Remove Bower support.
 
 ## 3.0.5 (2017-02-08)
 * chore: better Travis build, and remove deprecation warnings
