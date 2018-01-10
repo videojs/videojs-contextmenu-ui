@@ -63,7 +63,7 @@ The plugin requires that `content` be passed as an array. If it is not, an error
 
 **Type**: Boolean
 
-If true, the context menu will be kept within the bounds of the player. If false it may extend outside. The menu will also stay inside the player if the menu would otherwise extend the document body, including for fullscreen players and players in an iframe.
+If `true` (default), the context menu will be kept within the bounds of the player. If `false`, it may extend outside. When set to `false`, the menu would still stay within the player if the menu would otherwise extend outside the document body, including fullscreen players and players in an iframe.
 
 ## Inclusion
 

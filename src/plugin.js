@@ -122,7 +122,7 @@ function onVjsContextMenu(e) {
  */
 function contextmenuUI(options) {
   const defaults = {
-    keepInside: false
+    keepInside: true
   };
 
   options = videojs.mergeOptions(defaults, options);
