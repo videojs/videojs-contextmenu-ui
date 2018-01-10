@@ -10,11 +10,17 @@ import multiEntry from 'rollup-plugin-multi-entry';
 import resolve from 'rollup-plugin-node-resolve';
 
 export default {
-  name: 'videojsContextmenuUiTests',
   input: 'test/**/*.test.js',
   output: {
     file: 'test/dist/bundle.js',
-    format: 'iife'
+    format: 'iife',
+    globals: {
+      'qunit': 'QUnit',
+      'qunitjs': 'QUnit',
+      'sinon': 'sinon',
+      'video.js': 'videojs'
+    },
+    name: 'videojsContextmenuUiTests'
   },
   external: [
     'qunit',
@@ -22,12 +28,6 @@ export default {
     'sinon',
     'video.js'
   ],
-  globals: {
-    'qunit': 'QUnit',
-    'qunitjs': 'QUnit',
-    'sinon': 'sinon',
-    'video.js': 'videojs'
-  },
   legacy: true,
   plugins: [
     multiEntry({

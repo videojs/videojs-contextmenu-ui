@@ -10,18 +10,18 @@ import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
 
 export default {
-  name: 'videojsContextmenuUi',
   input: 'src/plugin.js',
   output: {
     file: 'dist/videojs-contextmenu-ui.js',
-    format: 'umd'
+    format: 'umd',
+    globals: {
+      'video.js': 'videojs'
+    },
+    name: 'videojsContextmenuUi'
   },
   external: [
     'video.js'
   ],
-  globals: {
-    'video.js': 'videojs'
-  },
   legacy: true,
   plugins: [
     resolve({
