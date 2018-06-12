@@ -1,0 +1,18 @@
+{
+  "generator-videojs-plugin": {
+    "bcov": false,
+    "scope": "",
+    "name": "contextmenu-ui",
+    "description": "A cross-device context menu UI for video.js players.",
+    "author": "Brightcove, Inc.",
+    "license": "apache2",
+    "css": true,
+    "ie8": true,
+    "docs": true,
+    "lang": false,
+    "bower": false,
+    "ghooks": "lint",
+    "pluginType": "advanced",
+    "husky": "lint"
+  }
+}
