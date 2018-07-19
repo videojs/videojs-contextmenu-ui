@@ -1,5 +1,7 @@
 # videojs-contextmenu-ui
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/brightcove/videojs-contextmenu-ui.svg)](https://greenkeeper.io/)
+
 A cross-device context menu UI for video.js players.
 
 **Note:** _This plugin depends on the [videojs-contextmenu][contextmenu] plugin, but that plugin is not included with it!_
