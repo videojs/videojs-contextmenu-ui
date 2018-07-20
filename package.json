@@ -16,8 +16,7 @@
   "scripts": {
     "prebuild": "npm run clean",
     "build": "npm-run-all -p build:*",
-    "build:css": "node-sass src/plugin.scss dist/videojs-ssai.css --output-style=compressed --linefeed=lf",
-    "build:css:postcss": "postcss -o dist/videojs-ssai.css --config scripts/postcss.config.js src/plugin.css",
+    "build:css": "node-sass src/plugin.scss dist/videojs-contextmenu-ui.css --output-style=compressed --linefeed=lf",
     "build:js": "rollup -c scripts/rollup.config.js",
     "clean": "rimraf dist test/dist",
     "postclean": "mkdirp dist test/dist",
