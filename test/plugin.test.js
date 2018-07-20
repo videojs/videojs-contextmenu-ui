@@ -1,7 +1,6 @@
 import document from 'global/document';
 import QUnit from 'qunit';
 import sinon from 'sinon';
-import tsmlj from 'tsmlj';
 import videojs from 'video.js';
 import plugin from '../src/plugin';
 
@@ -52,9 +51,7 @@ QUnit.module('videojs-contextmenu-ui', {
   }
 });
 
-QUnit.test(tsmlj`
-  opens a custom context menu on the first "vjs-contextmenu" event encountered
-`, function(assert) {
+QUnit.test('opens a custom context menu on the first "vjs-contextmenu" event encountered', function(assert) {
   this.player.trigger({
     type: 'vjs-contextmenu',
     pageX: 0,
@@ -64,10 +61,7 @@ QUnit.test(tsmlj`
   assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 1);
 });
 
-QUnit.test(tsmlj`
-  closes the custom context menu on the second "vjs-contextmenu" event
-  encountered
-`, function(assert) {
+QUnit.test('closes the custom context menu on the second "vjs-contextmenu" event encountered', function(assert) {
   this.player.trigger({
     type: 'vjs-contextmenu',
     pageX: 0,
@@ -83,10 +77,7 @@ QUnit.test(tsmlj`
   assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
 });
 
-QUnit.test(tsmlj`
-  closes the custom context menu when interacting with the player or document
-  outside the menu
-`, function(assert) {
+QUnit.test('closes the custom context menu when interacting with the player or document outside the menu', function(assert) {
   this.player.trigger({
     type: 'vjs-contextmenu',
     pageX: 0,
