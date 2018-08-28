@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "module": "dist/videojs-contextmenu-ui.es.js",
   "generator-videojs-plugin": {
-    "version": "7.0.2"
+    "version": "7.1.1"
   },
   "scripts": {
     "prebuild": "npm run clean",
@@ -34,8 +34,9 @@
     "watch": "npm-run-all -p watch:*",
     "watch:css": "npm run build:css -- -w",
     "watch:js": "npm run build:js -- -w",
-    "prepublish": "not-in-install && npm run build || in-install",
-    "precommit": "lint-staged"
+    "prepublish": "not-in-install && npm run build || in-install && npm-merge-driver install",
+    "precommit": "lint-staged",
+    "posttest": "shx cat test/dist/coverage/text.txt"
   },
   "vjsstandard": {
     "ignore": [
@@ -74,10 +75,11 @@
     "shx": "^0.3.2",
     "sinon": "^6.1.5",
     "videojs-contextmenu": "^2.0.0",
-    "videojs-generate-karma-config": "~1.0.1",
+    "videojs-generate-karma-config": "~2.0.0",
     "videojs-generate-postcss-config": "~2.0.1",
-    "videojs-generate-rollup-config": "~1.0.0",
-    "videojs-standard": "^7.0.1"
+    "videojs-generate-rollup-config": "~2.0.1",
+    "videojs-standard": "^7.0.1",
+    "npm-merge-driver": "^2.3.5"
   },
   "browserslist": [
     "defaults",
