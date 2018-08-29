@@ -8,7 +8,9 @@
 
 A cross-device context menu UI for video.js players.
 
-**Note:** _Versions 4.x and lower of this plugin depended on the [videojs-contextmenu][contextmenu] plugin, but that plugin is not included with it! Versions 5.x and newer do not support browsers that do not support the native `contextmenu` event. To achieve support in those environments, users may emulate their own `contextmenu` event if they wish, but we don't recommend it._
+> **Note:** Versions 4.x and lower of this plugin depended on the [videojs-contextmenu][contextmenu] plugin, but that plugin is not included with it. It must be included separately.
+>
+> Versions 5.x and newer does not use the videojs-contextmenu plugin, so do not include it. Versions 5.x and newer rely on the native `contextmenu` event.
 
 Maintenance Status: Stable
 
