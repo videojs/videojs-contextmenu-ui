@@ -53,9 +53,9 @@ QUnit.module('videojs-contextmenu-ui', {
   }
 });
 
-QUnit.test('opens a custom context menu on the first "vjs-contextmenu" event encountered', function(assert) {
+QUnit.test('opens a custom context menu on the first "contextmenu" event encountered', function(assert) {
   this.player.trigger({
-    type: 'vjs-contextmenu',
+    type: 'contextmenu',
     pageX: 0,
     pageY: 0
   });
@@ -63,15 +63,15 @@ QUnit.test('opens a custom context menu on the first "vjs-contextmenu" event enc
   assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 1);
 });
 
-QUnit.test('closes the custom context menu on the second "vjs-contextmenu" event encountered', function(assert) {
+QUnit.test('closes the custom context menu on the second "contextmenu" event encountered', function(assert) {
   this.player.trigger({
-    type: 'vjs-contextmenu',
+    type: 'contextmenu',
     pageX: 0,
     pageY: 0
   });
 
   this.player.trigger({
-    type: 'vjs-contextmenu',
+    type: 'contextmenu',
     pageX: 0,
     pageY: 0
   });
@@ -81,7 +81,7 @@ QUnit.test('closes the custom context menu on the second "vjs-contextmenu" event
 
 QUnit.test('closes the custom context menu when interacting with the player or document outside the menu', function(assert) {
   this.player.trigger({
-    type: 'vjs-contextmenu',
+    type: 'contextmenu',
     pageX: 0,
     pageY: 0
   });

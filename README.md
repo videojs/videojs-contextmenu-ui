@@ -8,7 +8,9 @@
 
 A cross-device context menu UI for video.js players.
 
-**Note:** _This plugin depends on the [videojs-contextmenu][contextmenu] plugin, but that plugin is not included with it!_
+> **Note:** Versions 4.x and lower of this plugin depended on the [videojs-contextmenu][contextmenu] plugin, but that plugin is not included with it. It must be included separately.
+>
+> Versions 5.x and newer does not use the videojs-contextmenu plugin, so do not include it. Versions 5.x and newer rely on the native `contextmenu` event.
 
 Maintenance Status: Stable
 
@@ -22,7 +24,7 @@ Maintenance Status: Stable
   - [`content`](#content)
 - [Inclusion](#inclusion)
   - [`<script>` Tag](#script-tag)
-  - [Browserify](#browserify)
+  - [CommonJS/Browserify](#commonjsbrowserify)
   - [RequireJS/AMD](#requirejsamd)
 - [License](#license)
 
@@ -32,7 +34,7 @@ Maintenance Status: Stable
 ## Installation
 
 ```sh
-npm install --save videojs-contextmenu videojs-contextmenu-ui
+npm install --save videojs-contextmenu-ui
 ```
 
 ## Usage
@@ -43,7 +45,7 @@ The plugin is invoked as a method of a video.js `Player` object:
 player.contextmenuUI();
 ```
 
-Once the plugin is invoked, a modal will appear with a list of links when the `vjs-contextmenu` event is triggered on the `Player` object.
+Once the plugin is invoked, a modal will appear with a list of links when the `contextmenu` event is triggered on the `Player` object.
 
 ## Options
 
@@ -88,7 +90,6 @@ This is the simplest case. Get the script in whatever way you prefer and include
 
 ```html
 <script src="//path/to/video.min.js"></script>
-<script src="//path/to/videojs-contextmenu.min.js"></script>
 <script src="//path/to/videojs-contextmenu-ui.min.js"></script>
 <script>
   var player = videojs('my-video');
@@ -97,14 +98,12 @@ This is the simplest case. Get the script in whatever way you prefer and include
 </script>
 ```
 
-### Browserify
+### CommonJS/Browserify
 
 When using with Browserify, install videojs-contextmenu-ui via npm and `require` the plugin as you would any other module.
 
 ```js
 var videojs = require('video.js');
-
-require('videojs-contextmenu');
 
 // The actual plugin function is exported by this module, but it is also
 // attached to the `Player.prototype`; so, there is no need to assign it
@@ -121,7 +120,7 @@ player.contextmenuUI();
 When using with RequireJS (or another AMD library), get the script in whatever way you prefer and `require` the plugin as you normally would:
 
 ```js
-require(['video.js', 'videojs-contextmenu', 'videojs-contextmenu-ui'], function(videojs) {
+require(['video.js', 'videojs-contextmenu-ui'], function(videojs) {
   var player = videojs('my-video');
 
   player.contextmenuUI();
