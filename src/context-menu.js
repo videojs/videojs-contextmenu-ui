@@ -3,6 +3,8 @@ import videojs from 'video.js';
 import ContextMenuItem from './context-menu-item';
 
 const Menu = videojs.getComponent('Menu');
+// support VJS5 & VJS6 at the same time
+const dom = videojs.dom || videojs;
 
 class ContextMenu extends Menu {
 
@@ -32,7 +34,7 @@ class ContextMenu extends Menu {
   createEl() {
     const el = super.createEl();
 
-    videojs.addClass(el, 'vjs-contextmenu-ui-menu');
+    dom.addClass(el, 'vjs-contextmenu-ui-menu');
     el.style.left = this.options_.position.left + 'px';
     el.style.top = this.options_.position.top + 'px';
 

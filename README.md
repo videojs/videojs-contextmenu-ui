@@ -1,19 +1,40 @@
 # videojs-contextmenu-ui
 
+[![Build Status](https://travis-ci.org/brightcove/videojs-contextmenu-ui.svg?branch=master)](https://travis-ci.org/brightcove/videojs-contextmenu-ui)
+[![Greenkeeper badge](https://badges.greenkeeper.io/brightcove/videojs-contextmenu-ui.svg)](https://greenkeeper.io/)
+[![Slack Status](http://slack.videojs.com/badge.svg)](http://slack.videojs.com)
+
+[![NPM](https://nodei.co/npm/videojs-contextmenu-ui.png?downloads=true&downloadRank=true)](https://nodei.co/npm/videojs-contextmenu-ui/)
+
 A cross-device context menu UI for video.js players.
 
-**Note:** _This plugin depends on the [videojs-contextmenu][contextmenu] plugin, but that plugin is not included with it!_
+> **Note:** Versions 4.x and lower of this plugin depended on the [videojs-contextmenu][contextmenu] plugin, but that plugin is not included with it. It must be included separately.
+>
+> Versions 5.x and newer does not use the videojs-contextmenu plugin, so do not include it. Versions 5.x and newer rely on the native `contextmenu` event.
+
+Maintenance Status: Stable
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Options](#options)
+  - [`content`](#content)
+- [Inclusion](#inclusion)
+  - [`<script>` Tag](#script-tag)
+  - [CommonJS/Browserify](#commonjsbrowserify)
+  - [RequireJS/AMD](#requirejsamd)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 ## Installation
 
 ```sh
-npm install --save videojs-contextmenu videojs-contextmenu-ui
-```
-
-The npm installation is preferred, but Bower works, too.
-
-```sh
-bower install --save videojs-contextmenu videojs-contextmenu-ui
+npm install --save videojs-contextmenu-ui
 ```
 
 ## Usage
@@ -24,7 +45,7 @@ The plugin is invoked as a method of a video.js `Player` object:
 player.contextmenuUI();
 ```
 
-Once the plugin is invoked, a modal will appear with a list of links when the `vjs-contextmenu` event is triggered on the `Player` object.
+Once the plugin is invoked, a modal will appear with a list of links when the `contextmenu` event is triggered on the `Player` object.
 
 ## Options
 
@@ -75,7 +96,6 @@ This is the simplest case. Get the script in whatever way you prefer and include
 
 ```html
 <script src="//path/to/video.min.js"></script>
-<script src="//path/to/videojs-contextmenu.min.js"></script>
 <script src="//path/to/videojs-contextmenu-ui.min.js"></script>
 <script>
   var player = videojs('my-video');
@@ -84,14 +104,12 @@ This is the simplest case. Get the script in whatever way you prefer and include
 </script>
 ```
 
-### Browserify
+### CommonJS/Browserify
 
 When using with Browserify, install videojs-contextmenu-ui via npm and `require` the plugin as you would any other module.
 
 ```js
 var videojs = require('video.js');
-
-require('videojs-contextmenu');
 
 // The actual plugin function is exported by this module, but it is also
 // attached to the `Player.prototype`; so, there is no need to assign it
@@ -108,7 +126,7 @@ player.contextmenuUI();
 When using with RequireJS (or another AMD library), get the script in whatever way you prefer and `require` the plugin as you normally would:
 
 ```js
-require(['video.js', 'videojs-contextmenu', 'videojs-contextmenu-ui'], function(videojs) {
+require(['video.js', 'videojs-contextmenu-ui'], function(videojs) {
   var player = videojs('my-video');
 
   player.contextmenuUI();

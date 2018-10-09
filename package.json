@@ -1,115 +1,102 @@
 {
   "name": "videojs-contextmenu-ui",
-  "version": "3.0.3",
+  "version": "5.0.0",
   "description": "A cross-device context menu UI for video.js players.",
-  "main": "es5/plugin.js",
-  "scripts": {
-    "prebuild": "npm run clean",
-    "build": "npm-run-all -p build:*",
-    "build:css": "npm-run-all build:css:sass build:css:bannerize",
-    "build:css:bannerize": "bannerize dist/videojs-contextmenu-ui.css --banner=scripts/banner.ejs",
-    "build:css:sass": "node-sass src/plugin.scss dist/videojs-contextmenu-ui.css --output-style=compressed --linefeed=lf",
-    "build:js": "npm-run-all build:js:babel build:js:browserify build:js:bannerize build:js:uglify",
-    "build:js:babel": "babel src -d es5",
-    "build:js:bannerize": "bannerize dist/videojs-contextmenu-ui.js --banner=scripts/banner.ejs",
-    "build:js:browserify": "browserify . -s videojs-contextmenu-ui -o dist/videojs-contextmenu-ui.js",
-    "build:js:uglify": "uglifyjs dist/videojs-contextmenu-ui.js --comments --mangle --compress -o dist/videojs-contextmenu-ui.min.js",
-    "build:test": "babel-node scripts/build-test.js",
-    "change": "chg add",
-    "clean": "rimraf dist test/dist es5 && mkdirp dist test/dist es5",
-    "lint": "vjsstandard",
-    "start": "babel-node scripts/server.js",
-    "pretest": "npm-run-all lint build",
-    "test": "karma start test/karma.conf.js",
-    "test:chrome": "npm run pretest && karma start test/karma.conf.js --browsers Chrome",
-    "test:firefox": "npm run pretest && karma start test/karma.conf.js --browsers Firefox",
-    "test:ie": "npm run pretest && karma start test/karma.conf.js --browsers IE",
-    "test:safari": "npm run pretest && karma start test/karma.conf.js --browsers Safari",
-    "preversion": "npm test",
-    "version": "babel-node scripts/version.js",
-    "postversion": "babel-node scripts/postversion.js",
-    "prepublish": "npm run build"
-  },
+  "main": "dist/videojs-contextmenu-ui.cjs.js",
   "keywords": [
     "videojs",
     "videojs-plugin"
   ],
   "author": "Brightcove, Inc.",
   "license": "Apache-2.0",
-  "browserify": {
-    "transform": [
-      "browserify-shim",
-      "browserify-versionify"
-    ]
+  "module": "dist/videojs-contextmenu-ui.es.js",
+  "generator-videojs-plugin": {
+    "version": "7.3.2"
   },
-  "browserify-shim": {
-    "qunit": "global:QUnit",
-    "sinon": "global:sinon",
-    "video.js": "global:videojs"
-  },
-  "style": "dist/videojs-contextmenu-ui.css",
-  "videojs-plugin": {
-    "style": "dist/videojs-contextmenu-ui.css",
-    "script": "dist/videojs-contextmenu-ui.min.js"
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "npm-run-all -p build:*",
+    "build:css": "postcss -o dist/videojs-contextmenu-ui.css --config scripts/postcss.config.js src/plugin.css",
+    "build:js": "rollup -c scripts/rollup.config.js",
+    "clean": "shx rm -rf ./dist ./test/dist",
+    "postclean": "shx mkdir -p ./dist ./test/dist",
+    "docs": "npm-run-all docs:*",
+    "docs:api": "jsdoc src -g plugins/markdown -r -d docs/api",
+    "docs:toc": "doctoc README.md",
+    "lint": "vjsstandard",
+    "server": "karma start scripts/karma.conf.js --singleRun=false --auto-watch",
+    "start": "npm-run-all -p server watch",
+    "pretest": "npm-run-all lint build",
+    "test": "karma start scripts/karma.conf.js",
+    "update-changelog": "conventional-changelog -p videojs -i CHANGELOG.md -s",
+    "preversion": "npm test",
+    "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
+    "watch": "npm-run-all -p watch:*",
+    "watch:css": "npm run build:css -- -w",
+    "watch:js": "npm run build:js -- -w",
+    "posttest": "shx cat test/dist/coverage/text.txt",
+    "prepublishOnly": "npm run build && vjsverify"
   },
   "vjsstandard": {
     "ignore": [
       "dist",
       "docs",
-      "es5",
-      "test/dist",
-      "test/karma.conf.js"
+      "test/dist"
     ]
   },
   "files": [
     "CONTRIBUTING.md",
-    "bower.json",
     "dist/",
     "docs/",
-    "es5/",
     "index.html",
     "scripts/",
     "src/",
     "test/"
   ],
   "dependencies": {
-    "global": "^4.3.0",
-    "video.js": "^5.10.1"
+    "global": "^4.3.2",
+    "video.js": "^6 || ^7"
   },
   "devDependencies": {
-    "babel": "^5.8.35",
-    "babelify": "^6.4.0",
-    "bannerize": "^1.0.2",
-    "bluebird": "^3.2.2",
-    "browserify": "^12.0.2",
-    "browserify-shim": "^3.8.12",
-    "browserify-versionify": "^1.0.6",
-    "budo": "^8.0.4",
-    "chg": "^0.3.2",
-    "ghooks": "^1.1.1",
-    "glob": "^6.0.3",
-    "karma": "^0.13.19",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-detect-browsers": "^2.0.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-ie-launcher": "^0.2.0",
-    "karma-qunit": "^0.1.9",
-    "karma-safari-launcher": "^0.1.1",
-    "lodash": "^4.11.2",
-    "mkdirp": "^0.5.1",
-    "node-sass": "^3.4.2",
-    "npm-run-all": "^1.5.1",
-    "qunitjs": "^1.21.0",
-    "rimraf": "^2.5.1",
-    "sinon": "~1.14.0",
-    "tsmlj": "^1.0.0",
-    "uglify-js": "^2.6.1",
-    "videojs-contextmenu": "^1.0.0",
-    "videojs-standard": "^4.0.0"
+    "conventional-changelog-cli": "^2.0.1",
+    "conventional-changelog-videojs": "^3.0.0",
+    "doctoc": "^1.3.1",
+    "husky": "^1.0.0-rc.13",
+    "jsdoc": "https://github.com/BrandonOCasey/jsdoc#feat/plugin-from-cli",
+    "karma": "^3.0.0",
+    "lint-staged": "^7.2.2",
+    "not-prerelease": "^1.0.1",
+    "npm-run-all": "^4.1.3",
+    "postcss-cli": "^6.0.0",
+    "rollup": "^0.66.0",
+    "shx": "^0.3.2",
+    "sinon": "^6.1.5",
+    "videojs-contextmenu": "^2.0.0",
+    "videojs-generate-karma-config": "~3.0.0",
+    "videojs-generate-postcss-config": "~2.0.1",
+    "videojs-generate-rollup-config": "~2.2.0",
+    "videojs-standard": "~8.0.0",
+    "pkg-ok": "^2.2.0",
+    "npm-merge-driver-install": "^1.0.0",
+    "videojs-generator-verify": "~1.0.3"
   },
-  "config": {
-    "ghooks": {
-      "pre-push": "npm run lint"
+  "browserslist": [
+    "defaults",
+    "ie 11"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "vjsstandard --fix",
+      "git add"
+    ],
+    "README.md": [
+      "npm run docs:toc",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
   }
 }
