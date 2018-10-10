@@ -1,3 +1,10 @@
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/brightcove/videojs-contextmenu-ui/compare/v5.0.0...v5.1.0) (2018-10-10)
+
+### Features
+
+* Keep menu within player by default (#5) ([c99d2e8](https://github.com/brightcove/videojs-contextmenu-ui/commit/c99d2e8)), closes [#5](https://github.com/brightcove/videojs-contextmenu-ui/issues/5)
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/brightcove/videojs-contextmenu-ui/compare/v4.0.0...v5.0.0) (2018-09-12)
 
