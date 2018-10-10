@@ -74,6 +74,23 @@ function onContextMenu(e) {
   });
 
   this.addChild(menu);
+
+  const menuSize = menu.el_.getBoundingClientRect();
+  const bodySize = document.body.getBoundingClientRect();
+
+  if (this.contextmenuUI.keepInside ||
+      menuSize.right > bodySize.width ||
+      menuSize.bottom > bodySize.height) {
+    menu.el_.style.left = Math.floor(Math.min(
+      menuPosition.left,
+      this.player_.currentWidth() - menu.currentWidth()
+    )) + 'px';
+    menu.el_.style.top = Math.floor(Math.min(
+      menuPosition.top,
+      this.player_.currentHeight() - menu.currentHeight()
+    )) + 'px';
+  }
+
   videojs.on(document, ['click', 'tap'], menu.dispose);
 }
 
@@ -84,8 +101,16 @@ function onContextMenu(e) {
  * @param    {Object} options
  * @param    {Array}  options.content
  *           An array of objects which populate a content list within the menu.
+ * @param    {Boolean}  options.keepInside
+ *           Whether to always keep the menu inside the player
  */
 function contextmenuUI(options) {
+  const defaults = {
+    keepInside: true
+  };
+
+  options = videojs.mergeOptions(defaults, options);
+
   if (!Array.isArray(options.content)) {
     throw new Error('"content" required');
   }
@@ -109,6 +134,7 @@ function contextmenuUI(options) {
 
   cmui.onContextMenu = videojs.bind(this, onContextMenu);
   cmui.content = options.content;
+  cmui.keepInside = options.keepInside;
   cmui.VERSION = VERSION;
 
   this.on('contextmenu', cmui.onContextMenu);

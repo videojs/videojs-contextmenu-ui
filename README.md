@@ -80,6 +80,12 @@ The plugin requires that `content` be passed as an array. If it is not, an error
 - `listener`: A function which will be bound to the `click` event of the generated link.
 - `label`: Text for the link.
 
+### `keepInside`
+
+**Type**: Boolean
+
+If `true` (default), the context menu will be kept within the bounds of the player. If `false`, it may extend outside. When set to `false`, the menu would still stay within the player if the menu would otherwise extend outside the document body, including fullscreen players and players in an iframe.
+
 ## Inclusion
 
 To include videojs-contextmenu-ui on your website or web application, use any of the following methods.
