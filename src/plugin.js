@@ -44,6 +44,7 @@ function onContextMenu(e) {
   // open the custom menu.
   if (hasMenu(this)) {
     this.contextmenuUI.menu.dispose();
+    e.preventDefault();
     return;
   }
 
