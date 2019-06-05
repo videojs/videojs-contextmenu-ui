@@ -91,7 +91,11 @@ function onContextMenu(e) {
     )) + 'px';
   }
 
-  videojs.on(document, ['click', 'tap'], menu.dispose);
+  // A workaround for Firefox issue  where "oncontextmenu" event
+  // leaks "click" event to document https://bugzilla.mozilla.org/show_bug.cgi?id=990614
+  const documentEl = videojs.browser.IS_FIREFOX ? document.documentElement : document;
+
+  videojs.on(documentEl, ['click', 'tap'], menu.dispose);
 }
 
 /**
@@ -101,7 +105,7 @@ function onContextMenu(e) {
  * @param    {Object} options
  * @param    {Array}  options.content
  *           An array of objects which populate a content list within the menu.
- * @param    {Boolean}  options.keepInside
+ * @param    {boolean}  options.keepInside
  *           Whether to always keep the menu inside the player
  */
 function contextmenuUI(options) {
