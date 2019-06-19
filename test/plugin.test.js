@@ -86,7 +86,11 @@ QUnit.test('closes the custom context menu when interacting with the player or d
     pageY: 0
   });
 
-  videojs.trigger(document, 'click');
+  // A workaround for Firefox issue  where "oncontextmenu" event
+  // leaks "click" event to document  https://bugzilla.mozilla.org/show_bug.cgi?id=990614
+  const documentEl = videojs.browser.IS_FIREFOX ? document.documentElement : document;
+
+  videojs.trigger(documentEl, 'click');
 
   assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
 });
