@@ -52,6 +52,9 @@ function onContextMenu(e) {
   const pointerPosition = getPointerPosition(this.el(), e);
   const playerSize = this.el().getBoundingClientRect();
   const menuPosition = findMenuPosition(pointerPosition, playerSize);
+  // A workaround for Firefox issue  where "oncontextmenu" event
+  // leaks "click" event to document https://bugzilla.mozilla.org/show_bug.cgi?id=990614
+  const documentEl = videojs.browser.IS_FIREFOX ? document.documentElement : document;
 
   e.preventDefault();
 
@@ -68,7 +71,7 @@ function onContextMenu(e) {
   };
 
   menu.on('dispose', () => {
-    videojs.off(document, ['click', 'tap'], menu.dispose);
+    videojs.off(documentEl, ['click', 'tap'], menu.dispose);
     this.removeChild(menu);
     delete this.contextmenuUI.menu;
   });
@@ -90,10 +93,6 @@ function onContextMenu(e) {
       this.player_.currentHeight() - menu.currentHeight()
     )) + 'px';
   }
-
-  // A workaround for Firefox issue  where "oncontextmenu" event
-  // leaks "click" event to document https://bugzilla.mozilla.org/show_bug.cgi?id=990614
-  const documentEl = videojs.browser.IS_FIREFOX ? document.documentElement : document;
 
   videojs.on(documentEl, ['click', 'tap'], menu.dispose);
 }
