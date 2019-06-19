@@ -1,3 +1,15 @@
+<a name="5.1.1"></a>
+## [5.1.1](https://github.com/brightcove/videojs-contextmenu-ui/compare/v5.1.0...v5.1.1) (2019-06-19)
+
+### Bug Fixes
+
+* Work around a Firefox issue where 'oncontextmenu' event triggers 'click' event ([3e65c01](https://github.com/brightcove/videojs-contextmenu-ui/commit/3e65c01))
+
+### Chores
+
+* **package:** Update development dependencies ([0c78097](https://github.com/brightcove/videojs-contextmenu-ui/commit/0c78097))
+* **package:** update npm-run-all/videojs-generator-verify for security ([76e8f79](https://github.com/brightcove/videojs-contextmenu-ui/commit/76e8f79))
+
 <a name="5.1.0"></a>
 # [5.1.0](https://github.com/brightcove/videojs-contextmenu-ui/compare/v5.0.0...v5.1.0) (2018-10-10)
 
