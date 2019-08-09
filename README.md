@@ -22,6 +22,8 @@ Maintenance Status: Stable
 - [Usage](#usage)
 - [Options](#options)
   - [`content`](#content)
+  - [`keepInside`](#keepinside)
+  - [`preventInputElementsMenu`](#preventinputelementsmenu)
 - [Inclusion](#inclusion)
   - [`<script>` Tag](#script-tag)
   - [CommonJS/Browserify](#commonjsbrowserify)
@@ -65,7 +67,8 @@ player.contextmenuUI({
     listener: function() {
       alert('you clicked the example link!');
     }
-  }]
+  }],
+  preventInputElementsMenu: true
 });
 ```
 
@@ -85,6 +88,12 @@ The plugin requires that `content` be passed as an array. If it is not, an error
 **Type**: Boolean
 
 If `true` (default), the context menu will be kept within the bounds of the player. If `false`, it may extend outside. When set to `false`, the menu would still stay within the player if the menu would otherwise extend outside the document body, including fullscreen players and players in an iframe.
+
+### `preventInputElementsMenu`
+
+**Type**: Boolean
+
+If `false` (default), the context menu will appear when the user is in an input element. If `true`, the context menu will not appear when the user is in an input element.
 
 ## Inclusion
 

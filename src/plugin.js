@@ -47,6 +47,13 @@ function onContextMenu(e) {
     return;
   }
 
+  // Prevent context menu from appearing when the user is in an input element
+  if (this.contextmenuUI.preventInputElementsMenu) {
+    if (e.target.tagName === 'INPUT') {
+      return;
+    }
+  }
+
   // Calculate the positioning of the menu based on the player size and
   // triggering event.
   const pointerPosition = getPointerPosition(this.el(), e);
@@ -106,10 +113,13 @@ function onContextMenu(e) {
  *           An array of objects which populate a content list within the menu.
  * @param    {boolean}  options.keepInside
  *           Whether to always keep the menu inside the player
+ * @param    {boolean}  options.preventInputElementsMenu
+ *           Whether to prevent the context menu from appearing in input elements
  */
 function contextmenuUI(options) {
   const defaults = {
-    keepInside: true
+    keepInside: true,
+    preventInputElementsMenu: false
   };
 
   options = videojs.mergeOptions(defaults, options);
@@ -138,6 +148,7 @@ function contextmenuUI(options) {
   cmui.onContextMenu = videojs.bind(this, onContextMenu);
   cmui.content = options.content;
   cmui.keepInside = options.keepInside;
+  cmui.preventInputElementsMenu = options.preventInputElementsMenu;
   cmui.VERSION = VERSION;
 
   this.on('contextmenu', cmui.onContextMenu);
