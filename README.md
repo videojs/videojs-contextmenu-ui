@@ -23,7 +23,7 @@ Maintenance Status: Stable
 - [Options](#options)
   - [`content`](#content)
   - [`keepInside`](#keepinside)
-  - [`preventInputElementsMenu`](#preventinputelementsmenu)
+  - [`excludeElements`](#excludeelements)
 - [Inclusion](#inclusion)
   - [`<script>` Tag](#script-tag)
   - [CommonJS/Browserify](#commonjsbrowserify)
@@ -67,8 +67,7 @@ player.contextmenuUI({
     listener: function() {
       alert('you clicked the example link!');
     }
-  }],
-  preventInputElementsMenu: true
+  }]
 });
 ```
 
@@ -89,11 +88,24 @@ The plugin requires that `content` be passed as an array. If it is not, an error
 
 If `true` (default), the context menu will be kept within the bounds of the player. If `false`, it may extend outside. When set to `false`, the menu would still stay within the player if the menu would otherwise extend outside the document body, including fullscreen players and players in an iframe.
 
-### `preventInputElementsMenu`
+### `excludeElements`
 
-**Type**: Boolean
+**Type**: Function
+**Parameters**: The DOM element that is being targeted
+**Returns**: Boolean | Returns `true` if the targeted element should be excluded from displaying context menu
 
-If `false` (default), the context menu will appear when the user is in an input element. If `true`, the context menu will not appear when the user is in an input element.
+Defines which elements should be excluded from displaying the context menu. `input` and `textarea` elements are excluded by the default function.
+
+```js
+player.contextmenuUI({
+  ...
+  excludeElements: (targetEl) => {
+    const tagName = targetEl.tagName.toLowerCase();
+
+    return tagName === 'input';
+  }
+});
+```
 
 ## Inclusion
 

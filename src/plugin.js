@@ -17,6 +17,18 @@ function hasMenu(player) {
 }
 
 /**
+ * Defines which elements should be excluded from displaying the context menu
+ *
+ * @param  {Object} targetEl The DOM element that is being targeted
+ * @return {boolean} Whether or not the element should be excluded from displaying the context menu
+ */
+function excludeElements(targetEl) {
+  const tagName = targetEl.tagName.toLowerCase();
+
+  return tagName === 'input' || tagName === 'textarea';
+}
+
+/**
  * Calculates the position of a menu based on the pointer position and player
  * size.
  *
@@ -47,11 +59,8 @@ function onContextMenu(e) {
     return;
   }
 
-  // Prevent context menu from appearing when the user is in an input element
-  if (this.contextmenuUI.preventInputElementsMenu) {
-    if (e.target.tagName === 'INPUT') {
-      return;
-    }
+  if (this.contextmenuUI.options_.excludeElements(e.target)) {
+    return;
   }
 
   // Calculate the positioning of the menu based on the player size and
@@ -113,13 +122,13 @@ function onContextMenu(e) {
  *           An array of objects which populate a content list within the menu.
  * @param    {boolean}  options.keepInside
  *           Whether to always keep the menu inside the player
- * @param    {boolean}  options.preventInputElementsMenu
- *           Whether to prevent the context menu from appearing in input elements
+ * @param    {function}  options.excludeElements
+ *           Defines which elements should be excluded from displaying the context menu
  */
 function contextmenuUI(options) {
   const defaults = {
     keepInside: true,
-    preventInputElementsMenu: false
+    excludeElements
   };
 
   options = videojs.mergeOptions(defaults, options);
@@ -148,7 +157,7 @@ function contextmenuUI(options) {
   cmui.onContextMenu = videojs.bind(this, onContextMenu);
   cmui.content = options.content;
   cmui.keepInside = options.keepInside;
-  cmui.preventInputElementsMenu = options.preventInputElementsMenu;
+  cmui.options_ = options;
   cmui.VERSION = VERSION;
 
   this.on('contextmenu', cmui.onContextMenu);

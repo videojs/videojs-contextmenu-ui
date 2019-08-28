@@ -37,8 +37,7 @@ QUnit.module('videojs-contextmenu-ui', {
         listener() {
           videojs.log('you clicked the example link!');
         }
-      }],
-      preventInputElementsMenu: true
+      }]
     });
 
     // Tick the clock forward enough to trigger the player to be "ready".
@@ -96,7 +95,7 @@ QUnit.test('closes the custom context menu when interacting with the player or d
   assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
 });
 
-QUnit.test('do not open context menu if in input element', function(assert) {
+QUnit.test('do not open context menu if in excluded element', function(assert) {
   const inputElement = document.createElement('input');
 
   inputElement.className = 'vjs-input-element';
@@ -107,6 +106,27 @@ QUnit.test('do not open context menu if in input element', function(assert) {
   rightClick.initMouseEvent('contextmenu', true, true, this.window, 1, 0, 0, 0, 0, false, false, false, false, 2, null);
 
   this.player.$('.vjs-input-element').dispatchEvent(rightClick);
+
+  assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
+});
+
+QUnit.test('do not open context menu if in custom excluded element', function(assert) {
+  const divElement = document.createElement('a');
+
+  divElement.className = 'vjs-anchor-element';
+  this.player.el().appendChild(divElement);
+
+  this.player.contextmenuUI.options_.excludeElements = (targetEl) => {
+    const tagName = targetEl.tagName.toLowerCase();
+
+    return tagName === 'a';
+  };
+
+  const rightClick = document.createEvent('MouseEvents');
+
+  rightClick.initMouseEvent('contextmenu', true, true, this.window, 1, 0, 0, 0, 0, false, false, false, false, 2, null);
+
+  this.player.$('.vjs-anchor-element').dispatchEvent(rightClick);
 
   assert.strictEqual(this.player.$$('.vjs-contextmenu-ui-menu').length, 0);
 });
