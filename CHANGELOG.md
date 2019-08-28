@@ -1,3 +1,14 @@
+<a name="5.2.0"></a>
+# [5.2.0](https://github.com/brightcove/videojs-contextmenu-ui/compare/v5.1.1...v5.2.0) (2019-08-28)
+
+### Features
+
+* Prevent context menu from appearing when targeting text input elements (#55) ([31ffc80](https://github.com/brightcove/videojs-contextmenu-ui/commit/31ffc80)), closes [#55](https://github.com/brightcove/videojs-contextmenu-ui/issues/55)
+
+### Chores
+
+* **package:** Update all dependencies (#56) ([26ef0fc](https://github.com/brightcove/videojs-contextmenu-ui/commit/26ef0fc)), closes [#56](https://github.com/brightcove/videojs-contextmenu-ui/issues/56)
+
 <a name="5.1.1"></a>
 ## [5.1.1](https://github.com/brightcove/videojs-contextmenu-ui/compare/v5.1.0...v5.1.1) (2019-06-19)
 
