@@ -74,7 +74,7 @@
     "sinon": "^6.3.5",
     "videojs-contextmenu": "^2.0.2",
     "videojs-generate-karma-config": "^5.3.1",
-    "videojs-generate-postcss-config": "~2.0.1",
+    "videojs-generate-postcss-config": "~2.1.1",
     "videojs-generate-rollup-config": "^2.3.2",
     "videojs-generator-verify": "^1.2.0",
     "videojs-standard": "^8.0.4"
