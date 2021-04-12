@@ -76,3 +76,7 @@ export function getPointerPosition(el, event) {
 
   return position;
 }
+
+export function isFunction(functionToCheck) {
+  return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+}

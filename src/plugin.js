@@ -1,7 +1,7 @@
 import document from 'global/document';
 import videojs from 'video.js';
 import ContextMenu from './context-menu';
-import {getPointerPosition} from './util';
+import {getPointerPosition, isFunction} from './util';
 import {version as VERSION} from '../package.json';
 
 /**
@@ -75,7 +75,7 @@ function onContextMenu(e) {
   e.preventDefault();
 
   const menu = this.contextmenuUI.menu = new ContextMenu(this, {
-    content: this.contextmenuUI.content,
+    content: isFunction(this.contextmenuUI.content) && this.contextmenuUI.content() || this.contextmenuUI.content,
     position: menuPosition
   });
 
@@ -133,7 +133,7 @@ function contextmenuUI(options) {
 
   options = videojs.mergeOptions(defaults, options);
 
-  if (!Array.isArray(options.content)) {
+  if (!Array.isArray(options.content) && !Array.isArray(options.content())) {
     throw new Error('"content" required');
   }
 
