@@ -1,3 +1,16 @@
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/brightcove/videojs-contextmenu-ui/compare/v5.2.0...v6.0.0) (2021-12-17)
+
+### Chores
+
+* skip vjsverify es check (#68) ([2e28a64](https://github.com/brightcove/videojs-contextmenu-ui/commit/2e28a64)), closes [#68](https://github.com/brightcove/videojs-contextmenu-ui/issues/68)
+* Update generate-rollup-config to drop older browser support (#66) ([e6e919a](https://github.com/brightcove/videojs-contextmenu-ui/commit/e6e919a)), closes [#66](https://github.com/brightcove/videojs-contextmenu-ui/issues/66)
+
+
+### BREAKING CHANGES
+
+* This removes support for some older browsers such as IE 11
+
 <a name="5.2.0"></a>
 # [5.2.0](https://github.com/brightcove/videojs-contextmenu-ui/compare/v5.1.1...v5.2.0) (2019-08-28)
 
