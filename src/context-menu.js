@@ -13,7 +13,7 @@ class ContextMenu extends Menu {
 
     // Each menu component has its own `dispose` method that can be
     // safely bound and unbound to events while maintaining its context.
-    this.dispose = videojs.bind(this, this.dispose);
+    this.dispose = this.dispose.bind(this);
 
     options.content.forEach(c => {
       let fn = function() {};
@@ -26,7 +26,7 @@ class ContextMenu extends Menu {
 
       this.addItem(new ContextMenuItem(player, {
         label: c.label,
-        listener: videojs.bind(player, fn)
+        listener: fn.bind(player)
       }));
     });
   }

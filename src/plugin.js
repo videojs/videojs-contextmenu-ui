@@ -131,7 +131,7 @@ function contextmenuUI(options) {
     excludeElements
   };
 
-  options = videojs.mergeOptions(defaults, options);
+  options = videojs.obj.merge(defaults, options);
 
   if (!Array.isArray(options.content)) {
     throw new Error('"content" required');
@@ -154,7 +154,7 @@ function contextmenuUI(options) {
     contextmenuUI.apply(this, arguments);
   };
 
-  cmui.onContextMenu = videojs.bind(this, onContextMenu);
+  cmui.onContextMenu = onContextMenu.bind(this);
   cmui.content = options.content;
   cmui.keepInside = options.keepInside;
   cmui.options_ = options;
