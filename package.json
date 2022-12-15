@@ -55,7 +55,7 @@
   ],
   "dependencies": {
     "global": "^4.4.0",
-    "video.js": "^7.17.0"
+    "video.js": "^8.0.0"
   },
   "devDependencies": {
     "conventional-changelog-cli": "^2.1.1",
@@ -73,7 +73,7 @@
     "shx": "^0.3.3",
     "sinon": "^6.3.5",
     "videojs-contextmenu": "^2.0.2",
-    "videojs-generate-karma-config": "^5.3.1",
+    "videojs-generate-karma-config": "^8.0.1",
     "videojs-generate-postcss-config": "~2.0.1",
     "videojs-generate-rollup-config": "^7.0.0",
     "videojs-generator-verify": "^4.0.1",
