@@ -1,3 +1,10 @@
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/videojs/videojs-contextmenu-ui/compare/v6.0.0...v7.0.0) (2022-12-16)
+
+### Chores
+
+* address deprecation warnings (#69) ([46d8e7f](https://github.com/videojs/videojs-contextmenu-ui/commit/46d8e7f)), closes [#69](https://github.com/videojs/videojs-contextmenu-ui/issues/69)
+
 <a name="6.0.0"></a>
 # [6.0.0](https://github.com/brightcove/videojs-contextmenu-ui/compare/v5.2.0...v6.0.0) (2021-12-17)
 
